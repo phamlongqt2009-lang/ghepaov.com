@@ -1,0 +1,2885 @@
+<!DOCTYPE html>
+<html lang="vi" class="theme-dark">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta name="description" content="Ghép ảnh acc Liên Quân — Anime Digital Experience. Nhanh, rẻ, uy tín."/>
+    <meta name="theme-color" content="#06040f"/>
+    <title>{% block title %}Liên Quân Studio — Anime Digital Experience{% endblock %}</title>
+
+    <meta property="og:type" content="website"/>
+    <meta property="og:site_name" content="Liên Quân Studio"/>
+    <meta property="og:title" content="{% block og_title %}Liên Quân Studio — Anime Digital Experience{% endblock %}"/>
+    <meta property="og:description" content="{% block og_description %}Studio ghép ảnh acc Liên Quân tự động.{% endblock %}"/>
+    <meta property="og:image" content="{{ url_for('static', filename='logo.png', _external=True) }}"/>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet"/>
+
+    <style>
+    /* ================================================================
+       SAKURA DRIVE — ANIME DIGITAL DESIGN SYSTEM v1.0
+       ================================================================ */
+    :root {
+        --void: #06040f;
+        --bg-1: #0c0a1c;
+        --bg-2: #141028;
+        --bg-3: #1c1530;
+        --bg-4: #252040;
+        --overlay: rgba(6, 4, 15, 0.86);
+
+        --pink: #ff2d95;
+        --pink-soft: rgba(255, 45, 149, 0.14);
+        --pink-glow: rgba(255, 45, 149, 0.42);
+
+        --cyan: #00e5ff;
+        --cyan-soft: rgba(0, 229, 255, 0.14);
+        --cyan-glow: rgba(0, 229, 255, 0.42);
+
+        --violet: #a855f7;
+        --violet-soft: rgba(168, 85, 247, 0.14);
+        --violet-glow: rgba(168, 85, 247, 0.42);
+
+        --gold: #ffd966;
+        --green: #34d399;
+        --red: #ff4d6d;
+        --amber: #fbbf24;
+
+        --fg: #ede9fe;
+        --fg-muted: #9a94c0;
+        --fg-dim: #6a6388;
+        --fg-faint: #2e2a4a;
+
+        --line-1: rgba(168, 85, 247, 0.15);
+        --line-2: rgba(255, 255, 255, 0.06);
+        --line-3: rgba(255, 45, 149, 0.35);
+
+        --font-display: 'Chakra Petch', system-ui, sans-serif;
+        --font-body: 'Inter', system-ui, sans-serif;
+        --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+        --font-jp: 'Noto Sans JP', 'Inter', sans-serif;
+
+        --r-1: 4px;
+        --r-2: 8px;
+        --r-3: 12px;
+        --r-4: 16px;
+        --r-5: 24px;
+        --r-full: 999px;
+
+        --s-1: 0 4px 16px rgba(0,0,0,0.35);
+        --s-2: 0 12px 32px rgba(0,0,0,0.5);
+        --s-3: 0 24px 64px rgba(0,0,0,0.6);
+        --glow-p: 0 0 32px rgba(255,45,149,0.35);
+        --glow-c: 0 0 32px rgba(0,229,255,0.35);
+        --glow-v: 0 0 32px rgba(168,85,247,0.35);
+
+        /* ===== COMPAT SHIM — old variables from previous designs ===== */
+        --color-primary: var(--pink);
+        --color-secondary: var(--violet);
+        --color-accent: var(--cyan);
+        --color-success: var(--green);
+        --color-danger: var(--red);
+        --color-warning: var(--amber);
+        --color-info: var(--cyan);
+        --color-text: var(--fg);
+        --color-text-muted: var(--fg-muted);
+        --color-bg-card: var(--bg-2);
+        --color-border: var(--line-1);
+        --radius-lg: var(--r-3);
+        --radius-md: var(--r-2);
+        --radius-sm: var(--r-1);
+        --radius-xl: var(--r-4);
+        --radius-full: var(--r-full);
+        --shadow-card: var(--s-2);
+        --shadow-glow: var(--glow-p);
+        --shadow-lg: var(--s-2);
+        --shadow-md: var(--s-1);
+
+        --primary: var(--pink);
+        --accent: var(--violet);
+        --text-muted: var(--fg-muted);
+        --text-primary: var(--fg);
+        --text-secondary: var(--fg-muted);
+        --text-dim: var(--fg-dim);
+        --primary-glow: var(--pink-glow);
+        --bg-secondary: var(--bg-2);
+        --border-color: var(--line-1);
+        --border-subtle: var(--line-1);
+        --border-strong: var(--line-3);
+        --success: var(--green);
+        --success-bg: rgba(52, 211, 153, 0.1);
+        --card-radius: var(--r-3);
+        --input-radius: var(--r-2);
+        --bg-base: var(--void);
+        --bg-surface: var(--bg-1);
+        --bg-elevated: var(--bg-2);
+        --bg-hover: var(--bg-3);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+        background: var(--void);
+        color: var(--fg);
+        font-family: var(--font-body);
+        font-size: 15px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        scroll-behavior: smooth;
+        overflow-x: clip;
+    }
+    html.no-scroll, html.no-scroll body { overflow: hidden; height: 100%; }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow-x: clip;
+        position: relative;
+        background: var(--void);
+    }
+
+    /* ========= COSMIC BACKGROUND LAYERS ========= */
+    .anx-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .anx-bg-grid {
+        position: absolute; inset: 0;
+        background-image:
+            linear-gradient(rgba(168,85,247,0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(168,85,247,0.05) 1px, transparent 1px);
+        background-size: 48px 48px;
+        mask-image: radial-gradient(ellipse at 50% 0%, black 30%, transparent 75%);
+        -webkit-mask-image: radial-gradient(ellipse at 50% 0%, black 30%, transparent 75%);
+        animation: anx-grid-drift 30s linear infinite;
+    }
+    @keyframes anx-grid-drift {
+        from { transform: translate(0, 0); }
+        to { transform: translate(48px, 48px); }
+    }
+    .anx-bg-glow {
+        position: absolute; border-radius: 50%;
+        filter: blur(90px); opacity: 0.45;
+        animation: anx-float-glow 14s ease-in-out infinite;
+    }
+    .anx-bg-glow.g1 {
+        top: -10%; right: -8%; width: 620px; height: 620px;
+        background: radial-gradient(circle, var(--pink), transparent 65%);
+    }
+    .anx-bg-glow.g2 {
+        bottom: -15%; left: -10%; width: 560px; height: 560px;
+        background: radial-gradient(circle, var(--cyan), transparent 65%);
+        animation-delay: -5s;
+    }
+    .anx-bg-glow.g3 {
+        top: 40%; left: 45%; width: 480px; height: 480px;
+        background: radial-gradient(circle, var(--violet), transparent 65%);
+        animation-delay: -9s;
+        opacity: 0.3;
+    }
+    @keyframes anx-float-glow {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(40px, -30px) scale(1.1); }
+        66% { transform: translate(-30px, 30px) scale(0.95); }
+    }
+    .anx-bg-scan {
+        position: absolute; inset: 0;
+        background: repeating-linear-gradient(
+            to bottom,
+            transparent 0px, transparent 3px,
+            rgba(255, 255, 255, 0.015) 3px, rgba(255, 255, 255, 0.015) 4px
+        );
+        pointer-events: none;
+    }
+    .anx-bg-vignette {
+        position: absolute; inset: 0;
+        background: radial-gradient(ellipse at center, transparent 35%, var(--void) 100%);
+    }
+
+    #anx-particles {
+        position: fixed; inset: 0;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* ========= LAYOUT ========= */
+    .anx-main {
+        position: relative; z-index: 2;
+        flex: 1;
+        padding-bottom: 96px;
+    }
+    @media (min-width: 1024px) { .anx-main { padding-bottom: 0; } }
+
+    .anx-container {
+        width: 100%;
+        max-width: 1320px;
+        margin-inline: auto;
+        padding-inline: 24px;
+    }
+    @media (max-width: 640px) { .anx-container { padding-inline: 16px; } }
+
+    /* ========= RESET ========= */
+    a { color: inherit; text-decoration: none; }
+    img, svg, video { display: block; max-width: 100%; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+    input, textarea, select { font-family: inherit; }
+    code, kbd, pre, samp { font-family: var(--font-mono); }
+    ul { list-style: none; }
+
+    ::selection { background: var(--pink); color: #fff; }
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: var(--void); }
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(var(--pink), var(--violet));
+        border-radius: 999px;
+        border: 2px solid var(--void);
+    }
+    ::-webkit-scrollbar-thumb:hover { background: var(--pink); }
+
+    /* ========= TYPOGRAPHY UTILITIES ========= */
+    .anx-eyebrow {
+        display: inline-flex; align-items: center; gap: 10px;
+        font-family: var(--font-mono);
+        font-size: 0.7rem; font-weight: 500;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--pink);
+    }
+    .anx-eyebrow::before {
+        content: ''; display: inline-block;
+        width: 28px; height: 1px; background: var(--pink);
+        box-shadow: 0 0 8px var(--pink-glow);
+    }
+    .anx-jp {
+        font-family: var(--font-jp);
+        font-weight: 700;
+        letter-spacing: 0.2em;
+    }
+    .anx-mono {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    /* ========= BUTTONS ========= */
+    .anx-btn {
+        position: relative;
+        display: inline-flex; align-items: center; justify-content: center;
+        gap: 10px;
+        padding: 13px 24px;
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 0.85rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        border-radius: var(--r-2);
+        background: var(--bg-2);
+        color: var(--fg);
+        border: 1px solid var(--line-1);
+        transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1);
+        overflow: hidden;
+        isolation: isolate;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+    .anx-btn::before {
+        content: '';
+        position: absolute; inset: 0;
+        background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.15) 50%, transparent 70%);
+        transform: translateX(-100%);
+        transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.4, 1);
+        z-index: -1;
+    }
+    .anx-btn:hover {
+        border-color: var(--pink);
+        color: #fff;
+        box-shadow: 0 0 24px var(--pink-glow), inset 0 0 12px rgba(255,45,149,0.1);
+        transform: translateY(-2px);
+    }
+    .anx-btn:hover::before { transform: translateX(100%); }
+    .anx-btn:active { transform: translateY(0); }
+    .anx-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    .anx-btn-primary {
+        background: linear-gradient(135deg, var(--pink) 0%, var(--violet) 100%);
+        color: #fff;
+        border-color: transparent;
+        box-shadow: 0 8px 28px -8px var(--pink-glow);
+    }
+    .anx-btn-primary:hover {
+        color: #fff;
+        border-color: transparent;
+        box-shadow: 0 12px 40px -8px var(--pink-glow), 0 0 32px var(--pink-glow);
+        filter: brightness(1.08);
+    }
+    .anx-btn-ghost {
+        background: transparent;
+        border-color: transparent;
+        color: var(--fg-muted);
+        padding: 10px 14px;
+    }
+    .anx-btn-ghost:hover {
+        color: var(--pink);
+        border-color: var(--line-1);
+        box-shadow: none;
+        background: var(--bg-2);
+    }
+    .anx-btn-sm { padding: 9px 16px; font-size: 0.72rem; }
+    .anx-btn-lg { padding: 16px 32px; font-size: 0.95rem; }
+    .anx-btn-danger {
+        background: transparent;
+        border-color: rgba(255,77,109,0.4);
+        color: var(--red);
+    }
+    .anx-btn-danger:hover {
+        background: rgba(255,77,109,0.1);
+        border-color: var(--red);
+        color: var(--red);
+        box-shadow: 0 0 24px rgba(255,77,109,0.3);
+    }
+
+    /* ========= ENTER GATE (Autoplay unlock + WOW) ========= */
+    #anx-gate {
+        position: fixed; inset: 0; z-index: 10000;
+        background: var(--void);
+        display: flex; align-items: center; justify-content: center;
+        padding: 24px;
+        transition: opacity 0.7s ease, visibility 0.7s;
+        overflow: hidden;
+    }
+    #anx-gate.gone { opacity: 0; visibility: hidden; pointer-events: none; }
+    #anx-gate-canvas {
+        position: absolute; inset: 0;
+        pointer-events: none;
+    }
+    .anx-gate-inner {
+        position: relative; z-index: 2;
+        text-align: center;
+        max-width: 620px;
+    }
+    .anx-gate-jp {
+        font-family: var(--font-jp);
+        font-weight: 900;
+        font-size: 5.5rem;
+        letter-spacing: 0.15em;
+        line-height: 1;
+        background: linear-gradient(135deg, var(--pink), var(--violet), var(--cyan));
+        background-size: 200% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: anx-jp-shift 4s ease-in-out infinite;
+        margin-bottom: 20px;
+        user-select: none;
+    }
+    @keyframes anx-jp-shift {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+    }
+    .anx-gate-title {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: clamp(1.6rem, 4vw, 2.4rem);
+        letter-spacing: 0.06em;
+        margin-bottom: 10px;
+        color: var(--fg);
+        text-transform: uppercase;
+    }
+    .anx-gate-sub {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--fg-muted);
+        margin-bottom: 40px;
+    }
+    .anx-gate-sub::before { content: '// '; color: var(--pink); }
+    .anx-gate-sub::after { content: ' //'; color: var(--pink); }
+
+    .anx-gate-btn {
+        position: relative;
+        display: inline-flex; align-items: center; gap: 14px;
+        padding: 20px 44px;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.05rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #fff;
+        background: linear-gradient(135deg, var(--pink), var(--violet));
+        border: none;
+        border-radius: var(--r-full);
+        cursor: pointer;
+        box-shadow: 0 20px 60px -10px var(--pink-glow), 0 0 0 0 var(--pink-glow);
+        transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+        animation: anx-gate-pulse 2s ease-in-out infinite;
+    }
+    @keyframes anx-gate-pulse {
+        0%, 100% { box-shadow: 0 20px 60px -10px var(--pink-glow), 0 0 0 0 rgba(255,45,149,0.4); }
+        50% { box-shadow: 0 20px 60px -10px var(--pink-glow), 0 0 0 20px rgba(255,45,149,0); }
+    }
+    .anx-gate-btn:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 30px 80px -10px var(--pink-glow), 0 0 60px var(--pink-glow);
+    }
+    .anx-gate-hint {
+        margin-top: 22px;
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        color: var(--fg-dim);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+
+    /* ========= CURSOR ========= */
+    @media (pointer: fine) {
+        body { cursor: none; }
+        a, button, [role="button"], summary { cursor: none; }
+    }
+    #anx-cursor {
+        position: fixed; top: 0; left: 0;
+        width: 32px; height: 32px;
+        border: 1.5px solid var(--pink);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: width 0.2s, height 0.2s, border-color 0.2s, background 0.2s;
+        mix-blend-mode: screen;
+        box-shadow: 0 0 20px var(--pink-glow);
+        will-change: transform;
+    }
+    #anx-cursor.hover {
+        width: 52px; height: 52px;
+        border-color: var(--cyan);
+        background: rgba(0,229,255,0.1);
+        box-shadow: 0 0 32px var(--cyan-glow);
+    }
+    #anx-cursor-dot {
+        position: fixed; top: 0; left: 0;
+        width: 5px; height: 5px;
+        background: var(--pink);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 10000;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 12px var(--pink);
+        will-change: transform;
+    }
+    @media (pointer: coarse) {
+        #anx-cursor, #anx-cursor-dot { display: none !important; }
+    }
+    body.reduce-motion #anx-cursor,
+    body.reduce-motion #anx-cursor-dot { display: none !important; }
+    body.reduce-motion { cursor: auto !important; }
+    body.reduce-motion a, body.reduce-motion button { cursor: pointer !important; }
+
+    /* ========= SCROLL PROGRESS ========= */
+    #anx-progress {
+        position: fixed; top: 0; left: 0;
+        height: 2px;
+        width: 0%;
+        background: linear-gradient(90deg, var(--pink), var(--violet), var(--cyan));
+        z-index: 9998;
+        box-shadow: 0 0 12px var(--pink-glow);
+        transition: width 0.05s linear;
+    }
+
+    /* ========= HEADER ========= */
+    .anx-header {
+        position: sticky; top: 0; z-index: 100;
+        background: rgba(6, 4, 15, 0.72);
+        backdrop-filter: blur(20px) saturate(160%);
+        -webkit-backdrop-filter: blur(20px) saturate(160%);
+        border-bottom: 1px solid var(--line-1);
+        transform: translateY(0);
+        transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .anx-header.hide { transform: translateY(-100%); }
+    .anx-header-inner {
+        max-width: 1320px;
+        margin-inline: auto;
+        padding: 14px 24px;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+    }
+    @media (max-width: 640px) { .anx-header-inner { padding: 12px 16px; gap: 12px; } }
+
+    .anx-brand {
+        display: flex; align-items: center; gap: 12px;
+        flex-shrink: 0;
+    }
+    .anx-brand-mark {
+        width: 40px; height: 40px;
+        position: relative;
+        display: flex; align-items: center; justify-content: center;
+        background: linear-gradient(135deg, var(--pink), var(--violet));
+        border-radius: var(--r-2);
+        font-family: var(--font-jp);
+        font-weight: 900;
+        font-size: 1.3rem;
+        color: #fff;
+        box-shadow: 0 0 24px var(--pink-glow);
+    }
+    .anx-brand-mark::before {
+        content: '';
+        position: absolute; inset: -3px;
+        border-radius: var(--r-3);
+        background: conic-gradient(from 0deg, var(--pink), var(--cyan), var(--violet), var(--pink));
+        opacity: 0;
+        z-index: -1;
+        transition: opacity 0.3s;
+        animation: anx-spin-ring 4s linear infinite;
+    }
+    @keyframes anx-spin-ring { to { transform: rotate(360deg); } }
+    .anx-brand:hover .anx-brand-mark::before { opacity: 0.8; }
+
+    .anx-brand-text {
+        display: flex; flex-direction: column; line-height: 1;
+    }
+    .anx-brand-text strong {
+        font-family: var(--font-display);
+        font-size: 0.95rem; font-weight: 700;
+        letter-spacing: 0.02em;
+        color: var(--fg);
+        text-transform: uppercase;
+    }
+    .anx-brand-text small {
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        color: var(--pink);
+        letter-spacing: 0.18em;
+        margin-top: 3px;
+        text-transform: uppercase;
+    }
+    @media (max-width: 480px) { .anx-brand-text { display: none; } }
+
+    .anx-nav {
+        display: none;
+        align-items: center;
+        gap: 2px;
+        margin-left: 12px;
+        flex: 1;
+    }
+    @media (min-width: 1024px) { .anx-nav { display: flex; } }
+
+    .anx-nav-link {
+        position: relative;
+        padding: 8px 14px;
+        font-family: var(--font-display);
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--fg-muted);
+        border-radius: var(--r-2);
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .anx-nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 4px; left: 14px; right: 14px;
+        height: 1px;
+        background: var(--pink);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+        box-shadow: 0 0 8px var(--pink-glow);
+    }
+    .anx-nav-link:hover {
+        color: var(--fg);
+        background: var(--bg-2);
+    }
+    .anx-nav-link:hover::after { transform: scaleX(1); }
+    .anx-nav-link.active { color: var(--pink); }
+    .anx-nav-link.active::after { transform: scaleX(1); }
+
+    .anx-nav-drop { position: relative; }
+    .anx-nav-drop > summary {
+        list-style: none; cursor: pointer; user-select: none;
+    }
+    .anx-nav-drop > summary::-webkit-details-marker { display: none; }
+    .anx-nav-drop[open] > summary { color: var(--fg); background: var(--bg-2); }
+    .anx-nav-drop-menu {
+        position: absolute;
+        top: calc(100% + 12px); left: 0;
+        min-width: 300px;
+        background: var(--bg-2);
+        border: 1px solid var(--line-1);
+        border-radius: var(--r-3);
+        padding: 8px;
+        z-index: 60;
+        box-shadow: var(--s-3), 0 0 40px -10px var(--pink-glow);
+        animation: anx-drop 0.25s cubic-bezier(0.2, 0.9, 0.4, 1);
+    }
+    @keyframes anx-drop {
+        from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+        to { opacity: 1; transform: none; }
+    }
+    .anx-nav-drop-menu a {
+        display: flex; align-items: flex-start; gap: 12px;
+        padding: 12px;
+        border-radius: var(--r-2);
+        transition: background 0.15s;
+    }
+    .anx-nav-drop-menu a:hover {
+        background: var(--bg-3);
+    }
+    .anx-nav-drop-menu .menu-ic {
+        width: 38px; height: 38px;
+        background: var(--pink-soft);
+        border: 1px solid var(--line-3);
+        display: flex; align-items: center; justify-content: center;
+        color: var(--pink);
+        border-radius: var(--r-2);
+        flex-shrink: 0;
+    }
+    .anx-nav-drop-menu .menu-ic svg { width: 16px; height: 16px; }
+    .anx-nav-drop-menu .menu-title {
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 0.88rem;
+        color: var(--fg);
+        margin-bottom: 4px;
+    }
+    .anx-nav-drop-menu .menu-sub {
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        color: var(--fg-dim);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    .anx-header-right {
+        display: flex; align-items: center; gap: 8px;
+        margin-left: auto;
+    }
+
+    .anx-balance {
+        display: none;
+        align-items: center; gap: 8px;
+        padding: 7px 14px;
+        background: var(--bg-2);
+        border: 1px solid var(--line-1);
+        border-radius: var(--r-full);
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        transition: all 0.2s;
+    }
+    .anx-balance:hover {
+        border-color: var(--pink);
+        box-shadow: 0 0 20px var(--pink-glow);
+    }
+    .anx-balance .lbl {
+        color: var(--fg-dim);
+        font-size: 0.6rem;
+        letter-spacing: 0.14em;
+    }
+    .anx-balance .val {
+        color: var(--pink);
+        font-weight: 700;
+    }
+    @media (min-width: 640px) { .anx-balance { display: inline-flex; } }
+
+    .anx-icon-btn {
+        width: 38px; height: 38px;
+        display: flex; align-items: center; justify-content: center;
+        border: 1px solid transparent;
+        border-radius: var(--r-2);
+        color: var(--fg-muted);
+        transition: all 0.2s;
+    }
+    .anx-icon-btn:hover {
+        color: var(--pink);
+        border-color: var(--line-1);
+        background: var(--bg-2);
+        box-shadow: 0 0 16px var(--pink-glow);
+    }
+
+    .anx-user-menu { position: relative; }
+    .anx-user-menu > summary {
+        list-style: none; cursor: pointer;
+        display: flex; align-items: center; gap: 10px;
+        padding: 4px 12px 4px 4px;
+        border: 1px solid var(--line-1);
+        border-radius: var(--r-full);
+        background: var(--bg-2);
+        transition: all 0.2s;
+    }
+    .anx-user-menu > summary::-webkit-details-marker { display: none; }
+    .anx-user-menu > summary:hover {
+        border-color: var(--pink);
+        box-shadow: 0 0 20px var(--pink-glow);
+    }
+    .anx-avatar {
+        width: 30px; height: 30px;
+        background: linear-gradient(135deg, var(--pink), var(--violet));
+        color: #fff;
+        display: flex; align-items: center; justify-content: center;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 0.85rem;
+        border-radius: 50%;
+    }
+    .anx-user-meta { display: none; line-height: 1.05; }
+    @media (min-width: 640px) { .anx-user-meta { display: block; } }
+    .anx-user-meta strong {
+        font-family: var(--font-display);
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: var(--fg);
+    }
+    .anx-user-meta small {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        color: var(--pink);
+        margin-top: 3px;
+    }
+
+    .anx-user-panel {
+        position: absolute;
+        top: calc(100% + 12px); right: 0;
+        width: 280px;
+        background: var(--bg-2);
+        border: 1px solid var(--line-1);
+        border-radius: var(--r-3);
+        padding: 8px;
+        z-index: 60;
+        box-shadow: var(--s-3), 0 0 40px -10px var(--pink-glow);
+        animation: anx-drop 0.25s cubic-bezier(0.2, 0.9, 0.4, 1);
+    }
+    .anx-user-panel .ph {
+        padding: 14px 14px 16px;
+        border-bottom: 1px solid var(--line-1);
+        margin-bottom: 6px;
+    }
+    .anx-user-panel .ph .name {
+        font-family: var(--font-display);
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--fg);
+    }
+    .anx-user-panel .ph .bal {
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        color: var(--fg-muted);
+        margin-top: 4px;
+        letter-spacing: 0.06em;
+    }
+    .anx-user-panel .ph .bal b { color: var(--pink); font-weight: 700; }
+    .anx-user-panel a,
+    .anx-user-panel button.pi {
+        display: flex; align-items: center; gap: 12px;
+        width: 100%; padding: 11px 12px;
+        border-radius: var(--r-2);
+        font-family: var(--font-body);
+        font-size: 0.85rem; font-weight: 500;
+        color: var(--fg-muted);
+        text-align: left;
+        transition: all 0.2s;
+    }
+    .anx-user-panel a:hover,
+    .anx-user-panel button.pi:hover {
+        background: var(--bg-3);
+        color: var(--fg);
+    }
+    .anx-user-panel a:hover svg,
+    .anx-user-panel button.pi:hover svg { color: var(--pink); }
+    .anx-user-panel a svg,
+    .anx-user-panel button.pi svg {
+        width: 15px; height: 15px;
+        color: var(--fg-dim);
+        flex-shrink: 0;
+        transition: color 0.2s;
+    }
+    .anx-user-panel .admin { color: var(--pink); }
+    .anx-user-panel .admin svg { color: var(--pink); }
+    .anx-user-panel .danger:hover { color: var(--red); background: rgba(255,77,109,0.08); }
+    .anx-user-panel .danger:hover svg { color: var(--red); }
+    .anx-user-panel .sep {
+        height: 1px; background: var(--line-1);
+        margin: 6px 4px;
+    }
+
+    /* ========= NOTIFICATION BUBBLE ========= */
+    #anx-noti {
+        position: fixed;
+        left: 20px; bottom: 100px;
+        z-index: 9500;
+        width: 340px;
+        max-width: calc(100vw - 40px);
+        background: var(--bg-2);
+        border: 1px solid var(--line-3);
+        border-radius: var(--r-3);
+        overflow: hidden;
+        box-shadow: var(--s-3), 0 0 60px -10px var(--pink-glow);
+        animation: anx-noti-in 0.5s cubic-bezier(0.2, 0.9, 0.4, 1);
+    }
+    @media (min-width: 1024px) { #anx-noti { bottom: 32px; } }
+    #anx-noti.hidden { display: none; }
+    @keyframes anx-noti-in {
+        from { opacity: 0; transform: translateY(24px) scale(0.95); }
+        to { opacity: 1; transform: none; }
+    }
+    .anx-noti-head {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 10px 14px;
+        background: linear-gradient(90deg, var(--pink), var(--violet));
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #fff;
+    }
+    .anx-noti-head .close {
+        width: 22px; height: 22px;
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(0,0,0,0.2);
+        border-radius: var(--r-1);
+        cursor: pointer;
+        font-size: 12px;
+        transition: background 0.15s;
+    }
+    .anx-noti-head .close:hover { background: rgba(0,0,0,0.4); }
+    .anx-noti-body { padding: 16px; }
+    .anx-noti-title {
+        display: flex; align-items: center; gap: 12px;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: 10px;
+        color: var(--fg);
+    }
+    .anx-noti-title .ic { font-size: 1.45rem; line-height: 1; }
+    .anx-noti-msg {
+        font-size: 0.85rem;
+        line-height: 1.65;
+        white-space: pre-line;
+        color: var(--fg-muted);
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    .anx-noti-msg::-webkit-scrollbar { width: 4px; }
+    .anx-noti-msg::-webkit-scrollbar-thumb { background: var(--pink); }
+    .anx-noti-foot {
+        padding: 8px 12px 12px;
+        border-top: 1px solid var(--line-1);
+    }
+    .anx-noti-foot button {
+        width: 100%;
+        padding: 9px;
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--fg-dim);
+        transition: color 0.15s;
+    }
+    .anx-noti-foot button:hover { color: var(--red); }
+
+    @keyframes anx-anim-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    @keyframes anx-anim-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.18); } }
+    @keyframes anx-anim-shake { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-12deg); } 75% { transform: rotate(12deg); } }
+    @keyframes anx-anim-spin { to { transform: rotate(360deg); } }
+    .anx-anim-bounce { animation: anx-anim-bounce 1.2s ease-in-out infinite; }
+    .anx-anim-pulse { animation: anx-anim-pulse 1.2s ease-in-out infinite; }
+    .anx-anim-shake { animation: anx-anim-shake 0.7s ease-in-out infinite; }
+    .anx-anim-spin { animation: anx-anim-spin 2.5s linear infinite; }
+    .anx-anim-none { animation: none; }
+
+    /* ========= MUSIC PLAYER ========= */
+    #anx-player {
+        position: fixed;
+        right: 20px; bottom: 178px;
+        z-index: 9400;
+        font-family: var(--font-body);
+    }
+    @media (min-width: 1024px) { #anx-player { bottom: 100px; } }
+
+    .anx-player-toggle {
+        position: relative;
+        width: 52px; height: 52px;
+        background: var(--bg-2);
+        border: 1px solid var(--line-1);
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+        box-shadow: var(--s-1);
+    }
+    .anx-player-toggle:hover {
+        border-color: var(--pink);
+        box-shadow: 0 0 32px var(--pink-glow);
+        transform: scale(1.06);
+    }
+    .anx-player-toggle svg { width: 20px; height: 20px; color: var(--pink); }
+    .anx-player-toggle.playing::before {
+        content: '';
+        position: absolute; inset: -4px;
+        border-radius: 50%;
+        background: conic-gradient(from 0deg, var(--pink), var(--cyan), var(--violet), var(--pink));
+        z-index: -1;
+        animation: anx-spin-ring 3s linear infinite;
+        opacity: 0.7;
+    }
+    .anx-player-bars {
+        display: flex; align-items: flex-end;
+        gap: 2px; height: 16px;
+    }
+    .anx-player-bars span {
+        width: 2px; background: var(--pink);
+        border-radius: 1px;
+        animation: anx-bar-bounce 0.8s ease-in-out infinite;
+    }
+    .anx-player-bars span:nth-child(1) { animation-delay: 0s; }
+    .anx-player-bars span:nth-child(2) { animation-delay: 0.15s; }
+    .anx-player-bars span:nth-child(3) { animation-delay: 0.3s; }
+    .anx-player-bars span:nth-child(4) { animation-delay: 0.45s; }
+    @keyframes anx-bar-bounce {
+        0%, 100% { height: 4px; opacity: 0.5; }
+        50% { height: 16px; opacity: 1; }
+    }
+
+    .anx-player-panel {
+        position: absolute;
+        bottom: calc(100% + 12px); right: 0;
+        width: 300px;
+        background: var(--bg-2);
+        border: 1px solid var(--line-1);
+        border-radius: var(--r-3);
+        padding: 16px;
+        box-shadow: var(--s-3), 0 0 60px -10px var(--pink-glow);
+        opacity: 0; visibility: hidden;
+        transform: translateY(12px) scale(0.96);
+        transform-origin: bottom right;
+        transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+    }
+    .anx-player.open .anx-player-panel {
+        opacity: 1; visibility: visible; transform: none;
+    }
+    .anx-player-panel .ph {
+        display: flex; align-items: center; gap: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--line-1);
+        margin-bottom: 14px;
+    }
+    .anx-player-panel .ph-art {
+        width: 44px; height: 44px;
+        border-radius: var(--r-2);
+        background: linear-gradient(135deg, var(--pink), var(--violet));
+        display: flex; align-items: center; justify-content: center;
+        color: #fff;
+        font-family: var(--font-jp);
+        font-weight: 900;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+        box-shadow: 0 0 20px var(--pink-glow);
+    }
+    .anx-player-panel .ph-txt {
+        flex: 1; min-width: 0;
+    }
+    .anx-player-panel .ph-title {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 0.88rem;
+        color: var(--fg);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .anx-player-panel .ph-artist {
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        color: var(--fg-dim);
+        letter-spacing: 0.08em;
+        margin-top: 3px;
+        text-transform: uppercase;
+    }
+    .anx-player-visualizer {
+        height: 40px;
+        display: flex; align-items: flex-end;
+        gap: 3px;
+        margin-bottom: 12px;
+        padding: 4px 0;
+    }
+    .anx-player-visualizer span {
+        flex: 1;
+        background: linear-gradient(to top, var(--pink), var(--cyan));
+        border-radius: 2px;
+        min-height: 4px;
+        transition: height 0.15s ease;
+    }
+    .anx-player-controls {
+        display: flex; align-items: center; gap: 10px;
+        margin-bottom: 12px;
+    }
+    .anx-player-controls button {
+        width: 34px; height: 34px;
+        display: flex; align-items: center; justify-content: center;
+        background: var(--bg-3);
+        border: 1px solid var(--line-1);
+        border-radius: 50%;
+        color: var(--fg-muted);
+        transition: all 0.2s;
+    }
+    .anx-player-controls button:hover {
+        color: var(--pink);
+        border-color: var(--pink);
+    }
+    .anx-player-controls .pp-main {
+        width: 42px; height: 42px;
+        background: linear-gradient(135deg, var(--pink), var(--violet));
+        color: #fff;
+        border: none;
+        box-shadow: 0 0 20px var(--pink-glow);
+    }
+    .anx-player-controls .pp-main:hover {
+        color: #fff;
+        transform: scale(1.08);
+    }
+    .anx-player-controls button svg { width: 15px; height: 15px; }
+    .anx-player-controls .pp-main svg { width: 18px; height: 18px; }
+
+    .anx-player-volume {
+        display: flex; align-items: center; gap: 10px;
+    }
+    .anx-player-volume svg {
+        width: 15px; height: 15px;
+        color: var(--fg-dim);
+        flex-shrink: 0;
+    }
+    .anx-player-volume input[type="range"] {
+        flex: 1;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 3px;
+        background: var(--bg-3);
+        border-radius: 999px;
+        outline: none;
+        cursor: pointer;
+    }
+    .anx-player-volume input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 12px; height: 12px;
+        background: var(--pink);
+        border-radius: 50%;
+        box-shadow: 0 0 8px var(--pink-glow);
+        cursor: pointer;
+    }
+    .anx-player-volume input[type="range"]::-moz-range-thumb {
+        width: 12px; height: 12px;
+        background: var(--pink);
+        border-radius: 50%;
+        border: none;
+        box-shadow: 0 0 8px var(--pink-glow);
+    }
+    .anx-player-panel .ph-noTrack {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        color: var(--fg-dim);
+        text-align: center;
+        padding: 8px;
+        border: 1px dashed var(--line-1);
+        border-radius: var(--r-2);
+        margin-top: 8px;
+        line-height: 1.5;
+    }
+
+    /* ========= SETTINGS PANEL ========= */
+    #anx-settings-btn {
+        position: fixed;
+        right: 20px; bottom: 240px;
+        z-index: 9400;
+        width: 52px; height: 52px;
+        background: var(--bg-2);
+        border: 1px solid var(--line-1);
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+        box-shadow: var(--s-1);
+    }
+    #anx-settings-btn:hover {
+        border-color: var(--cyan);
+        box-shadow: 0 0 32px var(--cyan-glow);
+        transform: scale(1.06) rotate(60deg);
+    }
+    #anx-settings-btn svg { width: 20px; height: 20px; color: var(--cyan); }
+    @media (min-width: 1024px) { #anx-settings-btn { bottom: 164px; } }
+
+    #anx-settings-panel {
+        position: fixed;
+        right: 20px; bottom: 240px;
+        z-index: 9450;
+        width: 320px;
+        background: var(--bg-2);
+        border: 1px solid var(--line-1);
+        border-radius: var(--r-3);
+        padding: 20px;
+        box-shadow: var(--s-3), 0 0 60px -10px var(--cyan-glow);
+        opacity: 0; visibility: hidden;
+        transform: translateY(12px) scale(0.96);
+        transform-origin: bottom right;
+        transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+    }
+    @media (min-width: 1024px) { #anx-settings-panel { bottom: 164px; } }
+    #anx-settings-panel.open {
+        opacity: 1; visibility: visible; transform: none;
+    }
+    .anx-set-head {
+        display: flex; align-items: center; justify-content: space-between;
+        padding-bottom: 14px;
+        margin-bottom: 16px;
+        border-bottom: 1px solid var(--line-1);
+    }
+    .anx-set-head h3 {
+        font-family: var(--font-display);
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+    }
+    .anx-set-head button {
+        width: 26px; height: 26px;
+        display: flex; align-items: center; justify-content: center;
+        border: 1px solid var(--line-1);
+        border-radius: var(--r-1);
+        color: var(--fg-muted);
+        transition: all 0.15s;
+    }
+    .anx-set-head button:hover { color: var(--red); border-color: var(--red); }
+    .anx-set-group {
+        margin-bottom: 18px;
+    }
+    .anx-set-group:last-child { margin-bottom: 0; }
+    .anx-set-group .lbl {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--fg-dim);
+        margin-bottom: 8px;
+    }
+    .anx-set-opts {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+    }
+    .anx-set-opt {
+        padding: 9px 6px;
+        background: var(--bg-1);
+        border: 1px solid var(--line-1);
+        border-radius: var(--r-2);
+        color: var(--fg-muted);
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        transition: all 0.2s;
+        text-align: center;
+    }
+    .anx-set-opt:hover {
+        color: var(--fg);
+        border-color: var(--line-3);
+    }
+    .anx-set-opt.active {
+        background: linear-gradient(135deg, var(--pink), var(--violet));
+        border-color: transparent;
+        color: #fff;
+        box-shadow: 0 0 16px var(--pink-glow);
+    }
+    .anx-set-toggle {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 10px 14px;
+        background: var(--bg-1);
+        border: 1px solid var(--line-1);
+        border-radius: var(--r-2);
+        transition: all 0.2s;
+    }
+    .anx-set-toggle + .anx-set-toggle { margin-top: 6px; }
+    .anx-set-toggle .tgl-lbl {
+        font-family: var(--font-body);
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--fg);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .anx-switch {
+        position: relative;
+        width: 42px; height: 24px;
+        flex-shrink: 0;
+    }
+    .anx-switch input { opacity: 0; width: 0; height: 0; }
+    .anx-switch-slider {
+        position: absolute; inset: 0;
+        background: var(--bg-3);
+        border-radius: var(--r-full);
+        cursor: pointer;
+        transition: 0.25s;
+    }
+    .anx-switch-slider::before {
+        content: '';
+        position: absolute;
+        height: 18px; width: 18px;
+        left: 3px; top: 3px;
+        background: #fff;
+        border-radius: 50%;
+        transition: 0.25s;
+    }
+    .anx-switch input:checked + .anx-switch-slider {
+        background: linear-gradient(135deg, var(--pink), var(--violet));
+    }
+    .anx-switch input:checked + .anx-switch-slider::before {
+        transform: translateX(18px);
+    }
+
+    /* ========= TOAST ========= */
+    #anx-toasts {
+        position: fixed;
+        top: 90px; right: 20px;
+        z-index: 9999;
+        display: flex; flex-direction: column; gap: 10px;
+        pointer-events: none;
+    }
+    .anx-toast {
+        pointer-events: auto;
+        display: flex; align-items: center; gap: 12px;
+        padding: 12px 18px;
+        font-family: var(--font-body);
+        font-size: 0.88rem;
+        font-weight: 500;
+        background: var(--bg-2);
+        border: 1px solid var(--line-1);
+        border-radius: var(--r-3);
+        color: var(--fg);
+        min-width: 260px;
+        max-width: 400px;
+        box-shadow: var(--s-2), 0 0 30px -10px var(--pink-glow);
+    }
+    .anx-toast .ic {
+        width: 30px; height: 30px;
+        display: flex; align-items: center; justify-content: center;
+        border-radius: var(--r-2);
+        flex-shrink: 0;
+    }
+    .anx-toast.success { border-color: rgba(52,211,153,0.4); box-shadow: var(--s-2), 0 0 30px -10px rgba(52,211,153,0.4); }
+    .anx-toast.success .ic { background: rgba(52,211,153,0.15); color: var(--green); }
+    .anx-toast.error { border-color: rgba(255,77,109,0.4); box-shadow: var(--s-2), 0 0 30px -10px rgba(255,77,109,0.4); }
+    .anx-toast.error .ic { background: rgba(255,77,109,0.15); color: var(--red); }
+    .anx-toast.warn { border-color: rgba(251,191,36,0.4); box-shadow: var(--s-2), 0 0 30px -10px rgba(251,191,36,0.4); }
+    .anx-toast.warn .ic { background: rgba(251,191,36,0.15); color: var(--amber); }
+    .anx-toast.info { border-color: var(--line-3); }
+    .anx-toast.info .ic { background: var(--pink-soft); color: var(--pink); }
+
+    /* ========= FOOTER ========= */
+    .anx-footer {
+        position: relative; z-index: 2;
+        margin-top: 80px;
+        padding-bottom: 96px;
+        border-top: 1px solid var(--line-1);
+        background: linear-gradient(180deg, transparent, rgba(255,45,149,0.02));
+    }
+    @media (min-width: 1024px) { .anx-footer { padding-bottom: 32px; } }
+
+    .anx-footer-inner {
+        max-width: 1320px;
+        margin-inline: auto;
+        padding: 64px 24px 28px;
+    }
+    @media (max-width: 640px) { .anx-footer-inner { padding: 40px 16px 24px; } }
+
+    .anx-footer-grid {
+        display: grid;
+        grid-template-columns: 1.7fr 1fr 1fr 1.3fr;
+        gap: 48px;
+        margin-bottom: 48px;
+    }
+    @media (max-width: 900px) { .anx-footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
+    @media (max-width: 520px) { .anx-footer-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+    .anx-footer-col h4 {
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--fg-dim);
+        margin-bottom: 18px;
+        padding-bottom: 12px;
+        border-bottom: 1px dashed var(--line-1);
+    }
+    .anx-footer-col ul {
+        display: flex; flex-direction: column; gap: 12px;
+    }
+    .anx-footer-col ul a {
+        font-size: 0.9rem;
+        color: var(--fg-muted);
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .anx-footer-col ul a:hover {
+        color: var(--pink);
+        transform: translateX(4px);
+    }
+    .anx-footer-col ul a::before {
+        content: '>';
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--pink);
+        opacity: 0.5;
+    }
+
+    .anx-footer-brand {
+        display: flex; align-items: center; gap: 14px;
+        margin-bottom: 18px;
+    }
+    .anx-footer-brand-mark {
+        width: 48px; height: 48px;
+        background: linear-gradient(135deg, var(--pink), var(--violet));
+        display: flex; align-items: center; justify-content: center;
+        font-family: var(--font-jp);
+        font-weight: 900;
+        font-size: 1.4rem;
+        color: #fff;
+        border-radius: var(--r-3);
+        box-shadow: 0 0 24px var(--pink-glow);
+    }
+    .anx-footer-brand strong {
+        font-family: var(--font-display);
+        font-size: 1.05rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+    }
+    .anx-footer-brand small {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 0.62rem;
+        color: var(--pink);
+        letter-spacing: 0.16em;
+        margin-top: 4px;
+    }
+    .anx-footer-desc {
+        font-size: 0.9rem;
+        line-height: 1.7;
+        color: var(--fg-muted);
+        max-width: 340px;
+    }
+    .anx-footer-desc .jp {
+        font-family: var(--font-jp);
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        color: var(--fg-dim);
+        font-size: 0.72rem;
+        display: inline-block;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+    }
+
+    .anx-footer-bottom {
+        padding-top: 24px;
+        border-top: 1px solid var(--line-1);
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--fg-dim);
+    }
+    .anx-footer-bottom .acc { color: var(--pink); }
+
+    /* ========= MOBILE NAV ========= */
+    .anx-mobile-nav {
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        z-index: 100;
+        background: rgba(12, 10, 28, 0.94);
+        backdrop-filter: blur(20px) saturate(160%);
+        -webkit-backdrop-filter: blur(20px) saturate(160%);
+        border-top: 1px solid var(--line-1);
+        padding-bottom: env(safe-area-inset-bottom, 0);
+        box-shadow: 0 -8px 32px rgba(0,0,0,0.5), 0 -1px 0 0 var(--pink-glow);
+    }
+    @media (min-width: 1024px) { .anx-mobile-nav { display: none; } }
+    .anx-mobile-nav-inner {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 480px;
+        margin-inline: auto;
+    }
+    .anx-mobile-nav a,
+    .anx-mobile-nav button {
+        display: flex; flex-direction: column;
+        align-items: center; gap: 5px;
+        padding: 10px 6px 12px;
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--fg-dim);
+        transition: all 0.2s;
+        width: 100%;
+        position: relative;
+    }
+    .anx-mobile-nav a:hover,
+    .anx-mobile-nav button:hover { color: var(--pink); }
+    .anx-mobile-nav a.active,
+    .anx-mobile-nav button.active { color: var(--pink); }
+    .anx-mobile-nav a.active::after,
+    .anx-mobile-nav button.active::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 50%;
+        transform: translateX(-50%);
+        width: 28px; height: 2px;
+        background: var(--pink);
+        box-shadow: 0 0 12px var(--pink-glow);
+    }
+    .anx-mobile-nav svg { width: 20px; height: 20px; }
+
+    /* ========= REVEAL ANIMATIONS ========= */
+    .anx-reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.9s cubic-bezier(0.2, 0.9, 0.4, 1),
+                    transform 0.9s cubic-bezier(0.2, 0.9, 0.4, 1);
+    }
+    .anx-reveal.in {
+        opacity: 1;
+        transform: none;
+    }
+    body.reduce-motion .anx-reveal {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    /* ========= COMPAT SHIM — CSS classes from previous redesigns ========= */
+    /* Utility classes that older templates may still use. */
+    .hidden { display: none !important; }
+    .block { display: block; }
+    .flex { display: flex; }
+    .inline-flex { display: inline-flex; }
+    .grid { display: grid; }
+    .relative { position: relative; }
+    .absolute { position: absolute; }
+    .fixed { position: fixed; }
+    .sticky { position: sticky; }
+    .inset-0 { inset: 0; }
+    .top-0 { top: 0; }
+    .bottom-0 { bottom: 0; }
+    .right-0 { right: 0; }
+    .left-0 { left: 0; }
+    .right-4 { right: 1rem; }
+    .top-20 { top: 5rem; }
+    .z-10 { z-index: 10; }
+    .z-20 { z-index: 20; }
+    .z-30 { z-index: 30; }
+    .z-40 { z-index: 40; }
+    .z-50 { z-index: 50; }
+    .items-center { align-items: center; }
+    .items-start { align-items: flex-start; }
+    .items-end { align-items: flex-end; }
+    .justify-center { justify-content: center; }
+    .justify-between { justify-content: space-between; }
+    .flex-col { flex-direction: column; }
+    .flex-1 { flex: 1 1 0%; }
+    .flex-shrink-0 { flex-shrink: 0; }
+    .gap-1 { gap: 0.25rem; }
+    .gap-1\.5 { gap: 0.375rem; }
+    .gap-2 { gap: 0.5rem; }
+    .gap-2\.5 { gap: 0.625rem; }
+    .gap-3 { gap: 0.75rem; }
+    .gap-4 { gap: 1rem; }
+    .gap-5 { gap: 1.25rem; }
+    .mx-auto { margin-inline: auto; }
+    .ml-auto { margin-left: auto; }
+    .mb-1 { margin-bottom: 0.25rem; }
+    .mb-2 { margin-bottom: 0.5rem; }
+    .mb-4 { margin-bottom: 1rem; }
+    .mb-5 { margin-bottom: 1.25rem; }
+    .mb-6 { margin-bottom: 1.5rem; }
+    .mt-2 { margin-top: 0.5rem; }
+    .mt-4 { margin-top: 1rem; }
+    .mt-5 { margin-top: 1.25rem; }
+    .mt-20 { margin-top: 5rem; }
+    .p-3 { padding: 0.75rem; }
+    .p-4 { padding: 1rem; }
+    .p-5 { padding: 1.25rem; }
+    .p-6 { padding: 1.5rem; }
+    .px-2 { padding-inline: 0.5rem; }
+    .px-3 { padding-inline: 0.75rem; }
+    .px-4 { padding-inline: 1rem; }
+    .px-5 { padding-inline: 1.25rem; }
+    .py-0\.5 { padding-block: 0.125rem; }
+    .py-2 { padding-block: 0.5rem; }
+    .py-2\.5 { padding-block: 0.625rem; }
+    .py-3 { padding-block: 0.75rem; }
+    .py-6 { padding-block: 1.5rem; }
+    .pb-20 { padding-bottom: 5rem; }
+    .pb-24 { padding-bottom: 6rem; }
+    .w-7 { width: 1.75rem; }
+    .w-8 { width: 2rem; }
+    .w-9 { width: 2.25rem; }
+    .w-12 { width: 3rem; }
+    .w-60 { width: 15rem; }
+    .w-64 { width: 16rem; }
+    .w-full { width: 100%; }
+    .h-7 { height: 1.75rem; }
+    .h-8 { height: 2rem; }
+    .h-9 { height: 2.25rem; }
+    .h-16 { height: 4rem; }
+    .h-full { height: 100%; }
+    .h-px { height: 1px; }
+    .max-w-md { max-width: 28rem; }
+    .max-w-sm { max-width: 24rem; }
+    .max-w-7xl { max-width: 80rem; }
+    .min-h-screen { min-height: 100vh; }
+    .rounded-lg { border-radius: var(--r-2); }
+    .rounded-xl { border-radius: var(--r-3); }
+    .rounded-2xl { border-radius: var(--r-4); }
+    .rounded-full { border-radius: var(--r-full); }
+    .overflow-hidden { overflow: hidden; }
+    .text-center { text-align: center; }
+    .text-left { text-align: left; }
+    .uppercase { text-transform: uppercase; }
+    .tracking-wide { letter-spacing: 0.03em; }
+    .tracking-wider { letter-spacing: 0.08em; }
+    .font-display { font-family: var(--font-display); }
+    .font-mono { font-family: var(--font-mono); }
+    .font-medium { font-weight: 500; }
+    .font-semibold { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+    .text-\[10px\] { font-size: 10px; }
+    .text-\[11px\] { font-size: 11px; }
+    .text-xs { font-size: 0.75rem; line-height: 1rem; }
+    .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+    .text-base { font-size: 1rem; }
+    .text-lg { font-size: 1.125rem; }
+    .text-xl { font-size: 1.25rem; }
+    .text-2xl { font-size: 1.5rem; }
+    .text-4xl { font-size: 2.25rem; }
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+    .transition-all { transition: all 0.2s; }
+    .transition-colors { transition: color 0.15s, background 0.15s, border-color 0.15s; }
+    .cursor-pointer { cursor: pointer; }
+    .list-none { list-style: none; }
+    .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .border { border: 1px solid var(--line-1); }
+    .border-b { border-bottom: 1px solid var(--line-1); }
+    .border-t { border-top: 1px solid var(--line-1); }
+    .backdrop-blur-sm { backdrop-filter: blur(8px); }
+    .text-white { color: #fff; }
+    .text-slate-300 { color: #cbd5e1; }
+    .text-slate-400 { color: #94a3b8; }
+    .text-slate-500 { color: #64748b; }
+    .text-slate-600 { color: #475569; }
+    .text-slate-700 { color: #334155; }
+    .animate-fade-in { animation: anx-fade-in 0.35s ease-out; }
+    @keyframes anx-fade-in {
+        from { opacity: 0; transform: translateY(6px); }
+        to { opacity: 1; transform: none; }
+    }
+    @media (min-width: 640px) {
+        .sm\:inline { display: inline; }
+        .sm\:px-6 { padding-inline: 1.5rem; }
+        .sm\:text-3xl { font-size: 1.875rem; }
+    }
+    @media (min-width: 1024px) {
+        .lg\:flex { display: flex; }
+        .lg\:hidden { display: none; }
+        .lg\:px-8 { padding-inline: 2rem; }
+        .lg\:pb-0 { padding-bottom: 0; }
+    }
+    .container {
+        width: 100%;
+        max-width: 1320px;
+        margin-inline: auto;
+        padding-inline: 24px;
+    }
+    .btn-primary {
+        display: inline-flex; align-items: center; justify-content: center;
+        gap: 8px; padding: 12px 22px;
+        font-family: var(--font-display); font-weight: 600;
+        font-size: 0.85rem; letter-spacing: 0.03em;
+        text-transform: uppercase;
+        background: linear-gradient(135deg, var(--pink), var(--violet));
+        color: #fff; border: none; border-radius: var(--r-2);
+        cursor: pointer; transition: all 0.25s;
+        box-shadow: 0 8px 28px -8px var(--pink-glow);
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px -8px var(--pink-glow);
+        filter: brightness(1.08);
+    }
+    .btn-secondary {
+        display: inline-flex; align-items: center; justify-content: center;
+        gap: 8px; padding: 12px 22px;
+        font-family: var(--font-display); font-weight: 600;
+        font-size: 0.85rem; letter-spacing: 0.03em;
+        text-transform: uppercase;
+        background: var(--bg-2); color: var(--fg);
+        border: 1px solid var(--line-1);
+        border-radius: var(--r-2);
+        cursor: pointer; transition: all 0.25s;
+    }
+    .btn-secondary:hover {
+        border-color: var(--pink); color: var(--pink);
+        box-shadow: 0 0 24px var(--pink-glow);
+        transform: translateY(-2px);
+    }
+    .btn-ghost {
+        display: inline-flex; align-items: center; justify-content: center;
+        gap: 8px; padding: 10px 14px;
+        color: var(--fg-muted); background: transparent;
+        border: none; cursor: pointer; transition: all 0.2s;
+        border-radius: var(--r-2);
+    }
+    .btn-ghost:hover {
+        color: var(--pink); background: var(--bg-2);
+    }
+    /* Old auth (login/register/change_password) */
+    .auth-container { max-width: 440px; margin: 40px auto; padding: 0 20px; }
+    .auth-card {
+        background: var(--bg-2); border: 1px solid var(--line-1);
+        border-radius: var(--r-4); padding: 40px 36px;
+        box-shadow: var(--s-2);
+        position: relative; overflow: hidden;
+    }
+    .auth-card::before {
+        content: ''; position: absolute;
+        top: 0; left: 0; right: 0; height: 3px;
+        background: linear-gradient(90deg, transparent, var(--pink), transparent);
+    }
+    .auth-header { text-align: center; margin-bottom: 28px; }
+    .auth-title {
+        font-family: var(--font-display); font-weight: 700;
+        font-size: 1.5rem; color: var(--fg);
+        letter-spacing: 0.01em;
+    }
+    .auth-subtitle {
+        color: var(--fg-muted); font-size: 0.88rem; margin-top: 6px;
+    }
+    .input-block { margin-bottom: 18px; }
+    .input-label {
+        display: block; font-weight: 600; font-size: 0.72rem;
+        color: var(--fg-muted); text-transform: uppercase;
+        letter-spacing: 0.14em; margin-bottom: 8px;
+    }
+    .input-control-wrapper { position: relative; }
+    .input-icon {
+        position: absolute; left: 16px; top: 50%;
+        transform: translateY(-50%);
+        color: var(--fg-dim); pointer-events: none;
+        transition: color 0.2s;
+    }
+    .auth-input {
+        width: 100%; padding: 13px 16px 13px 46px;
+        background: var(--bg-1); border: 1px solid var(--line-1);
+        border-radius: var(--r-2); color: var(--fg);
+        font-size: 0.92rem; outline: none;
+        transition: all 0.25s;
+    }
+    .auth-input:focus {
+        border-color: var(--pink);
+        background: var(--bg-3);
+        box-shadow: 0 0 0 4px var(--pink-soft), 0 0 24px var(--pink-glow);
+    }
+    .auth-input:focus ~ .input-icon { color: var(--pink); }
+    .input-hint {
+        font-size: 0.75rem; color: var(--fg-muted);
+        margin-top: 6px; display: block;
+    }
+    .auth-btn {
+        width: 100%; padding: 13px;
+        background: linear-gradient(135deg, var(--pink), var(--violet));
+        color: #fff; border: none; border-radius: var(--r-2);
+        font-family: var(--font-display); font-weight: 700;
+        font-size: 0.95rem; letter-spacing: 0.03em;
+        text-transform: uppercase;
+        cursor: pointer; margin-top: 24px;
+        transition: all 0.25s;
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+        box-shadow: 0 8px 28px -8px var(--pink-glow);
+    }
+    .auth-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px -8px var(--pink-glow);
+        filter: brightness(1.08);
+    }
+    .error-box, .error-msg {
+        background: rgba(255,77,109,0.1);
+        border: 1px solid rgba(255,77,109,0.3);
+        padding: 12px 16px; border-radius: var(--r-2);
+        color: #ff8fa3; font-size: 0.85rem; font-weight: 500;
+        margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+    }
+    .success-box, .success-msg {
+        background: rgba(52,211,153,0.1);
+        border: 1px solid rgba(52,211,153,0.3);
+        padding: 12px 16px; border-radius: var(--r-2);
+        color: #6ee7b7; font-size: 0.85rem; font-weight: 500;
+        margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+    }
+    .auth-footer {
+        text-align: center; margin-top: 24px;
+        font-size: 0.88rem; color: var(--fg-muted);
+    }
+    .auth-footer a {
+        color: var(--pink); font-weight: 600;
+        transition: color 0.15s;
+    }
+    .auth-footer a:hover { color: var(--violet); }
+    .footer-divider {
+        text-align: center; margin-top: 20px;
+        padding-top: 16px; border-top: 1px solid var(--line-1);
+    }
+    .btn-link {
+        color: var(--fg-muted); font-weight: 600;
+        font-size: 0.82rem; display: inline-flex;
+        align-items: center; gap: 6px; transition: color 0.15s;
+    }
+    .btn-link:hover { color: var(--pink); }
+    /* Generic old wmk class used in prior redesign */
+    .wmk-card { background: var(--bg-2); border: 1px solid var(--line-1); border-radius: var(--r-3); padding: 24px; }
+    .wmk-page { max-width: 1200px; margin: 0 auto; padding: 32px 20px 60px; }
+    .wmk-page-title {
+        font-family: var(--font-display); font-size: 1.8rem;
+        font-weight: 700; color: var(--fg);
+        display: flex; align-items: center; gap: 12px; margin-bottom: 8px;
+    }
+    .wmk-page-subtitle { color: var(--fg-muted); font-size: 0.92rem; margin-bottom: 28px; }
+    .vx-card { background: var(--bg-2); border: 1px solid var(--line-1); border-radius: var(--r-3); padding: 24px; }
+    .vx-container { max-width: 1320px; margin-inline: auto; padding-inline: 24px; }
+    .vx-page { max-width: 1320px; margin: 0 auto; padding: 32px 24px 60px; }
+    </style>
+
+    {% block head %}{% endblock %}
+</head>
+<body>
+
+<!-- ================= BACKGROUND LAYERS ================= -->
+<div class="anx-bg" aria-hidden="true">
+    <div class="anx-bg-grid"></div>
+    <div class="anx-bg-glow g1"></div>
+    <div class="anx-bg-glow g2"></div>
+    <div class="anx-bg-glow g3"></div>
+    <div class="anx-bg-scan"></div>
+    <div class="anx-bg-vignette"></div>
+</div>
+<canvas id="anx-particles" aria-hidden="true"></canvas>
+
+<!-- ================= SCROLL PROGRESS ================= -->
+<div id="anx-progress" aria-hidden="true"></div>
+
+<!-- ================= CUSTOM CURSOR ================= -->
+<div id="anx-cursor" aria-hidden="true"></div>
+<div id="anx-cursor-dot" aria-hidden="true"></div>
+
+<!-- ================= ENTER GATE ================= -->
+<div id="anx-gate" role="dialog" aria-label="Enter experience">
+    <canvas id="anx-gate-canvas" aria-hidden="true"></canvas>
+    <div class="anx-gate-inner">
+        <div class="anx-gate-jp">憑依</div>
+        <div class="anx-gate-title">LIÊN QUÂN STUDIO</div>
+        <div class="anx-gate-sub">ANIME DIGITAL EXPERIENCE</div>
+        <button id="anx-enter-btn" class="anx-gate-btn" type="button">
+            <span>Enter</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+        <div class="anx-gate-hint">Click để bắt đầu · Music sẽ phát tự động</div>
+    </div>
+</div>
+
+<!-- ================= NOTIFICATION ================= -->
+{% if site_notification and site_notification.enabled and (site_notification.title or site_notification.message) %}
+<div id="anx-noti" class="hidden" role="dialog">
+    <div class="anx-noti-head">
+        <span>// SYSTEM_MESSAGE</span>
+        <span class="close" onclick="document.getElementById('anx-noti').classList.add('hidden')">✕</span>
+    </div>
+    <div class="anx-noti-body">
+        <div class="anx-noti-title">
+            <span class="ic anx-anim-{{ site_notification.icon_animation or 'bounce' }}">{{ site_notification.icon or '📢' }}</span>
+            <span style="color: {{ site_notification.title_color or '#ff2d95' }}">{{ site_notification.title or 'Thông báo' }}</span>
+        </div>
+        {% if site_notification.message %}
+        <div class="anx-noti-msg" style="color: {{ site_notification.message_color or '#9a94c0' }}">{{ site_notification.message }}</div>
+        {% endif %}
+    </div>
+    <div class="anx-noti-foot">
+        <button type="button" onclick="anxMuteNoti()">🔕 Tắt 3 tiếng</button>
+    </div>
+</div>
+<script>
+(function () {
+    var K = 'anx_noti_mute';
+    var el = document.getElementById('anx-noti');
+    if (!el) return;
+    window.anxMuteNoti = function () {
+        try { localStorage.setItem(K, String(Date.now() + 3*60*60*1000)); } catch (e) {}
+        el.classList.add('hidden');
+    };
+    var t = 0;
+    try { t = parseInt(localStorage.getItem(K) || '0', 10); } catch (e) {}
+    if (!t || Date.now() > t) el.classList.remove('hidden');
+})();
+</script>
+{% endif %}
+
+<!-- ================= HEADER ================= -->
+<header class="anx-header" id="anx-header">
+    <div class="anx-header-inner">
+        <a href="{{ url_for('home') }}" class="anx-brand">
+            <div class="anx-brand-mark">憑</div>
+            <div class="anx-brand-text">
+                <strong>Liên Quân Studio</strong>
+                <small>// anime · auto</small>
+            </div>
+        </a>
+
+        <nav class="anx-nav" aria-label="Chính">
+            <a href="{{ url_for('home') }}" class="anx-nav-link">Home</a>
+            <details class="anx-nav-drop" name="topnav">
+                <summary class="anx-nav-link">
+                    Nạp tiền
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                </summary>
+                <div class="anx-nav-drop-menu">
+                    <a href="{{ url_for('payment') }}">
+                        <div class="menu-ic">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+                        </div>
+                        <div>
+                            <div class="menu-title">Nạp ngân hàng</div>
+                            <div class="menu-sub">// qr tự động</div>
+                        </div>
+                    </a>
+                    <a href="{{ url_for('payment') }}">
+                        <div class="menu-ic">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                        </div>
+                        <div>
+                            <div class="menu-title">Nạp thẻ cào</div>
+                            <div class="menu-sub">// viettel · mobi · vina</div>
+                        </div>
+                    </a>
+                </div>
+            </details>
+            <a href="{{ url_for('history') }}" class="anx-nav-link">History</a>
+            <a href="{{ url_for('updates') }}" class="anx-nav-link">Updates</a>
+            <a href="{{ url_for('privacy_policy') }}" class="anx-nav-link">Legal</a>
+        </nav>
+
+        <div class="anx-header-right">
+            {% if session.username %}
+            <a href="{{ url_for('payment') }}" class="anx-balance">
+                <span class="lbl">BAL</span>
+                <span class="val" data-balance-display="true">{{ balance|default('0') }}đ</span>
+            </a>
+            {% endif %}
+
+            <button type="button" class="anx-icon-btn" id="anx-theme-btn" aria-label="Đổi theme" onclick="anxToggleTheme()">
+                <span class="theme-dark">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                </span>
+                <span class="theme-light" style="display:none">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </span>
+            </button>
+
+            {% if session.username %}
+            <details class="anx-user-menu" name="topnav">
+                <summary>
+                    <div class="anx-avatar">{{ session.username[0]|upper }}</div>
+                    <div class="anx-user-meta">
+                        <strong>{{ session.username }}</strong>
+                        <small data-balance-display="true">{{ balance|default('0') }}đ</small>
+                    </div>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                </summary>
+                <div class="anx-user-panel">
+                    <div class="ph">
+                        <div class="name">{{ session.username }}</div>
+                        <div class="bal">BALANCE: <b data-balance-display="true">{{ balance|default('0') }}đ</b></div>
+                    </div>
+                    <a href="{{ url_for('merge_page') }}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                        Ghép ảnh mới
+                    </a>
+                    <a href="{{ url_for('history') }}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+                        Lịch sử
+                    </a>
+                    {% if session.is_admin %}
+                    <a href="{{ url_for('admin_dashboard') }}" class="admin">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        Trang quản trị
+                    </a>
+                    {% endif %}
+                    <a href="{{ url_for('change_password') }}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        Đổi mật khẩu
+                    </a>
+                    <div class="sep"></div>
+                    <form action="{{ url_for('logout') }}" method="post">
+                        <button type="submit" class="pi danger">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                            Đăng xuất
+                        </button>
+                    </form>
+                </div>
+            </details>
+            {% else %}
+            <a href="{{ url_for('login') }}" class="anx-btn anx-btn-primary anx-btn-sm">
+                Đăng nhập
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</header>
+
+<!-- ================= MAIN ================= -->
+<main class="anx-main">
+    {% block content %}{% endblock %}
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="anx-footer">
+    <div class="anx-footer-inner">
+        <div class="anx-footer-grid">
+            <div class="anx-footer-col">
+                <div class="anx-footer-brand">
+                    <div class="anx-footer-brand-mark">憑</div>
+                    <div>
+                        <strong>Liên Quân Studio</strong>
+                        <small>// anime digital</small>
+                    </div>
+                </div>
+                <p class="anx-footer-desc">
+                    <span class="jp">憑依 · 自動 · 高速</span>
+                    Hệ thống ghép ảnh acc Liên Quân tự động — anime-flavored digital experience. Phát triển bởi Hoàng Long × Hải Quang.
+                </p>
+            </div>
+
+            <div class="anx-footer-col">
+                <h4>// SERVICES</h4>
+                <ul>
+                    <li><a href="{{ url_for('merge_page') }}">Ghép ảnh</a></li>
+                    <li><a href="{{ url_for('payment') }}">Nạp tiền</a></li>
+                    <li><a href="{{ url_for('history') }}">Lịch sử</a></li>
+                </ul>
+            </div>
+
+            <div class="anx-footer-col">
+                <h4>// SUPPORT</h4>
+                <ul>
+                    <li><a href="{{ url_for('updates') }}">Cập nhật</a></li>
+                    <li><a href="{{ url_for('privacy_policy') }}">Chính sách</a></li>
+                    <li><a href="{{ url_for('change_password') }}">Đổi mật khẩu</a></li>
+                </ul>
+            </div>
+
+            <div class="anx-footer-col">
+                <h4>// CONTACT</h4>
+                <ul>
+                    <li>
+                        <a href="{{ site_settings.telegram_link if site_settings and site_settings.telegram_link else 'https://t.me/Dieunhinine' }}" target="_blank" rel="noopener">
+                            Telegram
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://zalo.me/{{ site_settings.zalo_phone if site_settings and site_settings.zalo_phone else '0824880709' }}" target="_blank" rel="noopener">
+                            Zalo CSKH
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="anx-footer-bottom">
+            <span>© 2026 <span class="acc">LIÊN QUÂN STUDIO</span> · SOFTWARE BY HOANG LONG DEV</span>
+            <span>MADE WITH ♥ IN VIỆT NAM</span>
+        </div>
+    </div>
+</footer>
+
+<!-- ================= MOBILE NAV ================= -->
+<nav class="anx-mobile-nav" aria-label="Mobile">
+    <div class="anx-mobile-nav-inner">
+        <a href="{{ url_for('home') }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <span>Home</span>
+        </a>
+        <button type="button" onclick="anxOpenTopup()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
+            <span>Nạp</span>
+        </button>
+        <a href="{{ url_for('history') }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+            <span>History</span>
+        </a>
+        <a href="{{ url_for('updates') }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            <span>Updates</span>
+        </a>
+    </div>
+</nav>
+
+<!-- ================= MUSIC PLAYER ================= -->
+<div id="anx-player" class="anx-player" aria-label="Music player">
+    <div class="anx-player-panel">
+        <div class="ph">
+            <div class="ph-art">音</div>
+            <div class="ph-txt">
+                <div class="ph-title" id="anx-track-title">Neon Sakura</div>
+                <div class="ph-artist" id="anx-track-artist">// anx.studio</div>
+            </div>
+        </div>
+
+        <div class="anx-player-visualizer" id="anx-visualizer">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <div class="anx-player-controls">
+            <button type="button" class="pp-main" id="anx-play-btn" aria-label="Play/pause">
+                <svg id="anx-play-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+                <svg id="anx-pause-icon" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            </button>
+            <button type="button" id="anx-mute-btn" aria-label="Mute">
+                <svg id="anx-vol-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                <svg id="anx-mute-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+            </button>
+            <div class="anx-player-volume">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/></svg>
+                <input type="range" id="anx-volume" min="0" max="100" value="35" aria-label="Volume"/>
+            </div>
+        </div>
+
+        <div class="ph-noTrack" id="anx-no-track" style="display:none">
+            Chưa có file nhạc.<br/>
+            Đặt file tại <b>/static/audio/background.mp3</b>
+        </div>
+    </div>
+
+    <div class="anx-player-toggle" id="anx-player-toggle" role="button" tabindex="0" aria-label="Toggle music player">
+        <div class="anx-player-bars" id="anx-mini-bars">
+            <span></span><span></span><span></span><span></span>
+        </div>
+    </div>
+    <audio id="anx-audio" loop preload="metadata">
+        <source src="/static/audio/background.mp3" type="audio/mpeg"/>
+    </audio>
+</div>
+
+<!-- ================= SETTINGS ================= -->
+<button type="button" id="anx-settings-btn" aria-label="Cài đặt hiệu ứng">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+</button>
+
+<div id="anx-settings-panel" role="dialog" aria-label="Cài đặt hiệu ứng">
+    <div class="anx-set-head">
+        <h3>Cài đặt</h3>
+        <button type="button" onclick="anxCloseSettings()">✕</button>
+    </div>
+
+    <div class="anx-set-group">
+        <span class="lbl">// Effects Mode</span>
+        <div class="anx-set-opts" id="anx-effect-opts">
+            <button type="button" class="anx-set-opt" data-mode="high">High</button>
+            <button type="button" class="anx-set-opt active" data-mode="medium">Medium</button>
+            <button type="button" class="anx-set-opt" data-mode="low">Low</button>
+        </div>
+    </div>
+
+    <div class="anx-set-group">
+        <span class="lbl">// Audio</span>
+        <div class="anx-set-toggle">
+            <span class="tgl-lbl">🎵 Music</span>
+            <label class="anx-switch">
+                <input type="checkbox" id="anx-tgl-music"/>
+                <span class="anx-switch-slider"></span>
+            </label>
+        </div>
+        <div class="anx-set-toggle">
+            <span class="tgl-lbl">🔊 Sound FX</span>
+            <label class="anx-switch">
+                <input type="checkbox" id="anx-tgl-fx" checked/>
+                <span class="anx-switch-slider"></span>
+            </label>
+        </div>
+    </div>
+
+    <div class="anx-set-group">
+        <span class="lbl">// Theme</span>
+        <div class="anx-set-opts" id="anx-theme-opts">
+            <button type="button" class="anx-set-opt active" data-theme="dark">Dark</button>
+            <button type="button" class="anx-set-opt" data-theme="light">Light</button>
+            <button type="button" class="anx-set-opt" data-theme="auto">Auto</button>
+        </div>
+    </div>
+</div>
+
+<!-- ================= TOPUP MODAL ================= -->
+<div id="anx-topup" class="vx-modal-backdrop" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)anxCloseTopup()">
+    <div style="background:var(--bg-2);border:1px solid var(--line-3);border-radius:var(--r-4);padding:28px;width:100%;max-width:440px;box-shadow:0 0 80px -20px var(--pink-glow);animation:anx-noti-in 0.3s">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;margin-bottom:20px;border-bottom:1px solid var(--line-1)">
+            <h3 style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em">Chọn phương thức nạp</h3>
+            <button type="button" onclick="anxCloseTopup()" style="width:30px;height:30px;border:1px solid var(--line-1);border-radius:var(--r-2);color:var(--fg-muted);display:flex;align-items:center;justify-content:center">✕</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+            <a href="{{ url_for('payment') }}" style="display:flex;align-items:center;gap:16px;padding:16px;border:1px solid var(--line-1);border-radius:var(--r-3);background:var(--bg-1);transition:all 0.2s">
+                <div style="width:44px;height:44px;background:var(--pink-soft);border:1px solid var(--line-3);border-radius:var(--r-2);display:flex;align-items:center;justify-content:center;color:var(--pink);flex-shrink:0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+                </div>
+                <div>
+                    <strong style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;display:block;color:var(--fg)">Nạp ngân hàng</strong>
+                    <small style="font-family:var(--font-mono);font-size:0.68rem;color:var(--fg-muted);display:block;margin-top:3px">// QR tự động — tức thì</small>
+                </div>
+            </a>
+            <a href="{{ url_for('payment') }}" style="display:flex;align-items:center;gap:16px;padding:16px;border:1px solid var(--line-1);border-radius:var(--r-3);background:var(--bg-1);transition:all 0.2s">
+                <div style="width:44px;height:44px;background:var(--cyan-soft);border:1px solid rgba(0,229,255,0.3);border-radius:var(--r-2);display:flex;align-items:center;justify-content:center;color:var(--cyan);flex-shrink:0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                </div>
+                <div>
+                    <strong style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;display:block;color:var(--fg)">Nạp thẻ cào</strong>
+                    <small style="font-family:var(--font-mono);font-size:0.68rem;color:var(--fg-muted);display:block;margin-top:3px">// Viettel · Mobi · Vina</small>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- ================= TOASTS ================= -->
+<div id="anx-toasts" aria-live="polite"></div>
+
+<script>
+/* ================================================================
+   SAKURA DRIVE — RUNTIME
+   ================================================================ */
+(function() {
+    'use strict';
+
+    // ---- Prefs ----
+    var PREF_KEY = 'anx_prefs_v1';
+    var prefs = {
+        effectMode: 'medium',
+        musicOn: false,
+        fxOn: true,
+        theme: 'dark',
+        entered: false
+    };
+
+    try {
+        var saved = JSON.parse(localStorage.getItem(PREF_KEY) || '{}');
+        Object.assign(prefs, saved);
+    } catch (e) {}
+
+    function savePrefs() {
+        try { localStorage.setItem(PREF_KEY, JSON.stringify(prefs)); } catch (e) {}
+    }
+
+    // ---- Reduced motion ----
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced && prefs.effectMode !== 'low') prefs.effectMode = 'low';
+
+    if (prefersReduced) document.body.classList.add('reduce-motion');
+
+    // ---- Theme ----
+    function applyTheme() {
+        var t = prefs.theme;
+        if (t === 'auto') {
+            t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.classList.toggle('theme-dark', t === 'dark');
+        document.documentElement.classList.toggle('theme-light', t === 'light');
+        // Toggle sun/moon icons in header
+        var darkIcons = document.querySelectorAll('.theme-dark');
+        var lightIcons = document.querySelectorAll('.theme-light');
+        darkIcons.forEach(function(el) { el.style.display = t === 'dark' ? 'inline-flex' : 'none'; });
+        lightIcons.forEach(function(el) { el.style.display = t === 'light' ? 'inline-flex' : 'none'; });
+
+        // Theme opts
+        document.querySelectorAll('#anx-theme-opts .anx-set-opt').forEach(function(b) {
+            b.classList.toggle('active', b.dataset.theme === prefs.theme);
+        });
+    }
+
+    window.anxToggleTheme = function() {
+        prefs.theme = (prefs.theme === 'dark') ? 'light' : 'dark';
+        savePrefs();
+        applyTheme();
+        soundFX('click');
+    };
+
+    // ---- Sound FX ----
+    var audioCtx = null;
+    function soundFX(type) {
+        if (!prefs.fxOn) return;
+        if (prefs.effectMode === 'low') return;
+        try {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            var o = audioCtx.createOscillator();
+            var g = audioCtx.createGain();
+            o.connect(g);
+            g.connect(audioCtx.destination);
+            var now = audioCtx.currentTime;
+            if (type === 'click') {
+                o.type = 'sine';
+                o.frequency.setValueAtTime(880, now);
+                o.frequency.exponentialRampToValueAtTime(1400, now + 0.06);
+                g.gain.setValueAtTime(0.06, now);
+                g.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+                o.start(now); o.stop(now + 0.13);
+            } else if (type === 'hover') {
+                o.type = 'sine';
+                o.frequency.setValueAtTime(1200, now);
+                g.gain.setValueAtTime(0.025, now);
+                g.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+                o.start(now); o.stop(now + 0.09);
+            } else if (type === 'success') {
+                o.type = 'triangle';
+                o.frequency.setValueAtTime(660, now);
+                o.frequency.exponentialRampToValueAtTime(1320, now + 0.15);
+                g.gain.setValueAtTime(0.08, now);
+                g.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+                o.start(now); o.stop(now + 0.3);
+            } else if (type === 'error') {
+                o.type = 'sawtooth';
+                o.frequency.setValueAtTime(220, now);
+                o.frequency.exponentialRampToValueAtTime(110, now + 0.2);
+                g.gain.setValueAtTime(0.06, now);
+                g.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+                o.start(now); o.stop(now + 0.26);
+            }
+        } catch (e) {}
+    }
+    window.anxSound = soundFX;
+
+    // ---- Cursor ----
+    var cursor, cursorDot;
+    var mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
+    var hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+
+    function initCursor() {
+        if (!hasFinePointer) return;
+        if (prefersReduced) return;
+        if (prefs.effectMode === 'low') return;
+        cursor = document.getElementById('anx-cursor');
+        cursorDot = document.getElementById('anx-cursor-dot');
+        if (!cursor) return;
+
+        document.addEventListener('mousemove', function(e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            if (cursorDot) {
+                cursorDot.style.transform = 'translate(' + (mouseX - 2.5) + 'px,' + (mouseY - 2.5) + 'px)';
+            }
+        });
+
+        (function tick() {
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            cursor.style.transform = 'translate(' + (cursorX - 16) + 'px,' + (cursorY - 16) + 'px)';
+            requestAnimationFrame(tick);
+        })();
+
+        // Hover
+        var hoverTargets = 'a, button, [role="button"], summary, input, textarea, select, .anx-btn, .anx-card, .anx-nav-link';
+        document.addEventListener('mouseover', function(e) {
+            if (e.target.closest(hoverTargets)) cursor.classList.add('hover');
+        });
+        document.addEventListener('mouseout', function(e) {
+            if (e.target.closest(hoverTargets)) cursor.classList.remove('hover');
+        });
+        document.addEventListener('mouseleave', function() {
+            cursor.style.opacity = '0';
+            cursorDot.style.opacity = '0';
+        });
+        document.addEventListener('mouseenter', function() {
+            cursor.style.opacity = '1';
+            cursorDot.style.opacity = '1';
+        });
+    }
+
+    // ---- Particle Canvas ----
+    function initParticles() {
+        if (prefs.effectMode === 'low') return;
+        if (prefersReduced) return;
+        var canvas = document.getElementById('anx-particles');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        var particles = [];
+        var count = prefs.effectMode === 'high' ? 60 : 30;
+        var w = 0, h = 0;
+        var colors = ['#ff2d95', '#00e5ff', '#a855f7', '#ffd966'];
+
+        function resize() {
+            w = canvas.width = window.innerWidth * dpr;
+            h = canvas.height = window.innerHeight * dpr;
+            canvas.style.width = window.innerWidth + 'px';
+            canvas.style.height = window.innerHeight + 'px';
+        }
+
+        function make() {
+            particles = [];
+            for (var i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    vx: (Math.random() - 0.5) * 0.15 * dpr,
+                    vy: (Math.random() - 0.5) * 0.15 * dpr,
+                    r: (Math.random() * 1.5 + 0.5) * dpr,
+                    c: colors[Math.floor(Math.random() * colors.length)],
+                    a: Math.random() * 0.6 + 0.2,
+                    phase: Math.random() * Math.PI * 2
+                });
+            }
+        }
+
+        function frame() {
+            ctx.clearRect(0, 0, w, h);
+            for (var i = 0; i < particles.length; i++) {
+                var p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.phase += 0.02;
+                if (p.x < 0) p.x = w;
+                if (p.x > w) p.x = 0;
+                if (p.y < 0) p.y = h;
+                if (p.y > h) p.y = 0;
+                var alpha = p.a * (0.7 + 0.3 * Math.sin(p.phase));
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = p.c;
+                ctx.globalAlpha = alpha;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = p.c;
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1;
+            ctx.shadowBlur = 0;
+            requestAnimationFrame(frame);
+        }
+
+        resize();
+        make();
+        window.addEventListener('resize', function() { resize(); make(); });
+        frame();
+    }
+
+    // ---- Gate ----
+    function initGate() {
+        var gate = document.getElementById('anx-gate');
+        if (!gate) return;
+
+        // Already entered this session?
+        var entered = false;
+        try { entered = sessionStorage.getItem('anx_entered') === '1'; } catch (e) {}
+        if (entered) {
+            gate.classList.add('gone');
+            setTimeout(function() { gate.remove(); }, 800);
+            return;
+        }
+
+        // Gate canvas — falling sakura dots
+        var canvas = document.getElementById('anx-gate-canvas');
+        if (canvas && !prefersReduced && prefs.effectMode !== 'low') {
+            var ctx = canvas.getContext('2d');
+            var dpr = Math.min(window.devicePixelRatio || 1, 2);
+            var parts = [];
+            var colors = ['#ff2d95', '#00e5ff', '#a855f7', '#ffd966'];
+            function resize() {
+                canvas.width = window.innerWidth * dpr;
+                canvas.height = window.innerHeight * dpr;
+                canvas.style.width = window.innerWidth + 'px';
+                canvas.style.height = window.innerHeight + 'px';
+            }
+            resize();
+            window.addEventListener('resize', resize);
+            for (var i = 0; i < 40; i++) {
+                parts.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vy: (Math.random() * 0.8 + 0.3) * dpr,
+                    vx: (Math.random() - 0.5) * 0.4 * dpr,
+                    r: (Math.random() * 2 + 1) * dpr,
+                    c: colors[Math.floor(Math.random() * colors.length)],
+                    a: Math.random() * 0.7 + 0.3
+                });
+            }
+            (function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (var i = 0; i < parts.length; i++) {
+                    var p = parts[i];
+                    p.x += p.vx; p.y += p.vy;
+                    if (p.y > canvas.height + 10) { p.y = -10; p.x = Math.random() * canvas.width; }
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = p.c;
+                    ctx.globalAlpha = p.a;
+                    ctx.shadowBlur = 14;
+                    ctx.shadowColor = p.c;
+                    ctx.fill();
+                }
+                ctx.globalAlpha = 1;
+                ctx.shadowBlur = 0;
+                requestAnimationFrame(draw);
+            })();
+        }
+
+        document.getElementById('anx-enter-btn').addEventListener('click', function() {
+            try { sessionStorage.setItem('anx_entered', '1'); } catch (e) {}
+            prefs.entered = true;
+
+            // Try to start music if user hasn't muted
+            if (prefs.musicOn === false && !prefs.musicMuted) {
+                prefs.musicOn = true;
+                savePrefs();
+                startMusic();
+            }
+
+            gate.classList.add('gone');
+            soundFX('success');
+            setTimeout(function() {
+                if (gate.parentNode) gate.remove();
+            }, 800);
+        });
+    }
+
+    // ---- Music Player ----
+    var audio, visualizerEls, miniBars;
+    var vizRAF = null;
+    var audioAnalyser = null;
+    var audioData = null;
+    var audioCtxMusic = null;
+
+    function initPlayer() {
+        audio = document.getElementById('anx-audio');
+        if (!audio) return;
+
+        var volume = prefs.volume !== undefined ? prefs.volume : 35;
+        document.getElementById('anx-volume').value = volume;
+        audio.volume = volume / 100;
+
+        if (prefs.musicMuted) {
+            audio.muted = true;
+        }
+
+        // Check if audio loads
+        var noTrack = document.getElementById('anx-no-track');
+        var okLoaded = false;
+        audio.addEventListener('loadedmetadata', function() { okLoaded = true; });
+        audio.addEventListener('canplay', function() {
+            okLoaded = true;
+            if (noTrack) noTrack.style.display = 'none';
+        });
+        audio.addEventListener('error', function() {
+            if (noTrack) noTrack.style.display = 'block';
+        });
+        setTimeout(function() {
+            if (!okLoaded && audio.readyState < 2) {
+                if (noTrack) noTrack.style.display = 'block';
+            }
+        }, 1500);
+
+        // Toggle panel
+        var toggle = document.getElementById('anx-player-toggle');
+        var player = document.getElementById('anx-player');
+        toggle.addEventListener('click', function() {
+            player.classList.toggle('open');
+            soundFX('click');
+        });
+        toggle.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                player.classList.toggle('open');
+            }
+        });
+
+        // Play/pause
+        var playBtn = document.getElementById('anx-play-btn');
+        var playIcon = document.getElementById('anx-play-icon');
+        var pauseIcon = document.getElementById('anx-pause-icon');
+
+        playBtn.addEventListener('click', function() {
+            if (audio.paused) {
+                startMusic();
+            } else {
+                audio.pause();
+                if (vizRAF) cancelAnimationFrame(vizRAF);
+                stopVisualizer();
+            }
+            soundFX('click');
+        });
+
+        audio.addEventListener('play', function() {
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'inline';
+            toggle.classList.add('playing');
+            startVisualizer();
+        });
+        audio.addEventListener('pause', function() {
+            playIcon.style.display = 'inline';
+            pauseIcon.style.display = 'none';
+            toggle.classList.remove('playing');
+            stopVisualizer();
+        });
+
+        // Mute
+        var muteBtn = document.getElementById('anx-mute-btn');
+        var volIcon = document.getElementById('anx-vol-icon');
+        var muteIcon = document.getElementById('anx-mute-icon');
+        muteBtn.addEventListener('click', function() {
+            audio.muted = !audio.muted;
+            prefs.musicMuted = audio.muted;
+            savePrefs();
+            volIcon.style.display = audio.muted ? 'none' : 'inline';
+            muteIcon.style.display = audio.muted ? 'inline' : 'none';
+            soundFX('click');
+        });
+
+        // Volume
+        document.getElementById('anx-volume').addEventListener('input', function() {
+            audio.volume = this.value / 100;
+            audio.muted = false;
+            volIcon.style.display = 'inline';
+            muteIcon.style.display = 'none';
+            prefs.volume = parseInt(this.value, 10);
+            savePrefs();
+        });
+
+        // Mini bars
+        miniBars = document.querySelectorAll('#anx-mini-bars span');
+        visualizerEls = document.querySelectorAll('#anx-visualizer span');
+
+        // If musicOn already from prefs, and user has interacted
+        if (prefs.musicOn) {
+            // Don't autoplay — wait for user interaction (handled by gate)
+        }
+    }
+
+    function startMusic() {
+        if (!audio) return;
+        var p = audio.play();
+        if (p && p.catch) {
+            p.catch(function() {
+                // Autoplay blocked — user must click play button
+                console.log('Autoplay blocked');
+            });
+        }
+    }
+
+    function startVisualizer() {
+        if (prefs.effectMode === 'low') return;
+        if (prefersReduced) return;
+        try {
+            if (!audioCtxMusic) {
+                audioCtxMusic = new (window.AudioContext || window.webkitAudioContext)();
+                var src = audioCtxMusic.createMediaElementSource(audio);
+                audioAnalyser = audioCtxMusic.createAnalyser();
+                audioAnalyser.fftSize = 32;
+                audioData = new Uint8Array(audioAnalyser.frequencyBinCount);
+                src.connect(audioAnalyser);
+                audioAnalyser.connect(audioCtxMusic.destination);
+            }
+            if (audioCtxMusic.state === 'suspended') audioCtxMusic.resume();
+        } catch (e) {
+            // Fallback: use fake visualizer
+        }
+
+        function tick() {
+            if (audio.paused) return;
+            if (audioAnalyser && audioData) {
+                audioAnalyser.getByteFrequencyData(audioData);
+                var n = visualizerEls.length;
+                for (var i = 0; i < n; i++) {
+                    var v = audioData[Math.floor(i * audioData.length / n)] / 255;
+                    visualizerEls[i].style.height = Math.max(4, v * 40) + 'px';
+                }
+            } else {
+                var now = performance.now() / 200;
+                for (var i = 0; i < visualizerEls.length; i++) {
+                    visualizerEls[i].style.height = (4 + Math.abs(Math.sin(now + i * 0.5)) * 36) + 'px';
+                }
+            }
+            vizRAF = requestAnimationFrame(tick);
+        }
+        tick();
+    }
+
+    function stopVisualizer() {
+        if (vizRAF) cancelAnimationFrame(vizRAF);
+        visualizerEls && visualizerEls.forEach(function(el) { el.style.height = '4px'; });
+    }
+
+    // ---- Settings panel ----
+    function initSettings() {
+        var btn = document.getElementById('anx-settings-btn');
+        var panel = document.getElementById('anx-settings-panel');
+        btn.addEventListener('click', function() {
+            panel.classList.toggle('open');
+            soundFX('click');
+        });
+        window.anxCloseSettings = function() { panel.classList.remove('open'); };
+
+        // Effect mode
+        var modeBtns = document.querySelectorAll('#anx-effect-opts .anx-set-opt');
+        modeBtns.forEach(function(b) {
+            b.addEventListener('click', function() {
+                prefs.effectMode = b.dataset.mode;
+                savePrefs();
+                modeBtns.forEach(function(x) { x.classList.remove('active'); });
+                b.classList.add('active');
+                soundFX('click');
+                // Note: full effect reload requires page refresh
+                if (prefs.effectMode === 'low') {
+                    window.anxToast('Effect mode: LOW — hiệu ứng nặng sẽ tắt khi tải lại trang', 'info');
+                }
+            });
+        });
+        // Set active
+        modeBtns.forEach(function(b) {
+            b.classList.toggle('active', b.dataset.mode === prefs.effectMode);
+        });
+
+        // Music toggle
+        var musicTgl = document.getElementById('anx-tgl-music');
+        musicTgl.checked = !!prefs.musicOn;
+        musicTgl.addEventListener('change', function() {
+            prefs.musicOn = this.checked;
+            savePrefs();
+            if (this.checked) {
+                startMusic();
+            } else {
+                audio.pause();
+            }
+            soundFX('click');
+        });
+
+        // FX toggle
+        var fxTgl = document.getElementById('anx-tgl-fx');
+        fxTgl.checked = !!prefs.fxOn;
+        fxTgl.addEventListener('change', function() {
+            prefs.fxOn = this.checked;
+            savePrefs();
+            if (this.checked) soundFX('click');
+        });
+
+        // Theme opts
+        document.querySelectorAll('#anx-theme-opts .anx-set-opt').forEach(function(b) {
+            b.addEventListener('click', function() {
+                prefs.theme = b.dataset.theme;
+                savePrefs();
+                applyTheme();
+                soundFX('click');
+            });
+        });
+    }
+
+    // ---- Toast ----
+    window.anxToast = function(msg, type) {
+        type = type || 'info';
+        var stack = document.getElementById('anx-toasts');
+        if (!stack) return;
+        var icons = {
+            success: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+            error: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+            warn: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+            info: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
+        };
+        var t = document.createElement('div');
+        t.className = 'anx-toast ' + type;
+        t.innerHTML = '<span class="ic">' + (icons[type] || icons.info) + '</span><span style="flex:1;min-width:0"></span>';
+        t.querySelector('span:last-child').textContent = String(msg == null ? '' : msg);
+        stack.appendChild(t);
+        t.animate(
+            [{ opacity: 0, transform: 'translateX(120%) scale(0.9)' }, { opacity: 1, transform: 'none' }],
+            { duration: 320, easing: 'cubic-bezier(0.2, 0.9, 0.4, 1)', fill: 'forwards' }
+        );
+        setTimeout(function() {
+            t.animate(
+                [{ opacity: 1 }, { opacity: 0, transform: 'translateX(120%) scale(0.9)' }],
+                { duration: 240, easing: 'ease-in', fill: 'forwards' }
+            ).onfinish = function() { t.remove(); };
+        }, 3400);
+    };
+
+    // Backwards compat
+    window.vxToast = window.anxToast;
+    window.wmkToast = window.anxToast;
+
+    // ---- Topup modal ----
+    window.anxOpenTopup = function() {
+        var m = document.getElementById('anx-topup');
+        if (!m) return;
+        m.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        soundFX('click');
+    };
+    window.anxCloseTopup = function() {
+        var m = document.getElementById('anx-topup');
+        if (!m) return;
+        m.style.display = 'none';
+        document.body.style.overflow = '';
+    };
+    window.wmkOpenTopup = window.anxOpenTopup;
+    window.wmkCloseTopup = window.anxCloseTopup;
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') window.anxCloseTopup();
+    });
+
+    // ---- Scroll progress + header hide ----
+    function initScroll() {
+        var bar = document.getElementById('anx-progress');
+        var header = document.getElementById('anx-header');
+        var lastY = 0;
+        var ticking = false;
+        function onScroll() {
+            var y = window.scrollY;
+            var max = document.documentElement.scrollHeight - window.innerHeight;
+            if (bar && max > 0) bar.style.width = ((y / max) * 100) + '%';
+            if (header) {
+                if (y > 120 && y > lastY) header.classList.add('hide');
+                else header.classList.remove('hide');
+            }
+            lastY = y;
+            ticking = false;
+        }
+        window.addEventListener('scroll', function() {
+            if (!ticking) {
+                requestAnimationFrame(onScroll);
+                ticking = true;
+            }
+        }, { passive: true });
+    }
+
+    // ---- Reveal on scroll ----
+    function initReveal() {
+        if (prefersReduced) return;
+        var els = document.querySelectorAll('.anx-reveal');
+        if (!els.length) return;
+        if (!('IntersectionObserver' in window)) {
+            els.forEach(function(e) { e.classList.add('in'); });
+            return;
+        }
+        var io = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+        els.forEach(function(e) { io.observe(e); });
+    }
+
+    // ---- Tilt cards ----
+    function initTilt() {
+        if (prefersReduced) return;
+        if (prefs.effectMode === 'low') return;
+        var cards = document.querySelectorAll('[data-anx-tilt]');
+        cards.forEach(function(card) {
+            card.addEventListener('mousemove', function(e) {
+                var r = card.getBoundingClientRect();
+                var x = (e.clientX - r.left) / r.width;
+                var y = (e.clientY - r.top) / r.height;
+                var rx = (y - 0.5) * -8;
+                var ry = (x - 0.5) * 8;
+                card.style.transform = 'perspective(1000px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateZ(0)';
+            });
+            card.addEventListener('mouseleave', function() {
+                card.style.transform = '';
+            });
+        });
+    }
+
+    // ---- Magnetic buttons ----
+    function initMagnetic() {
+        if (prefersReduced) return;
+        if (prefs.effectMode === 'low') return;
+        if (!hasFinePointer) return;
+        var mags = document.querySelectorAll('[data-anx-magnetic]');
+        mags.forEach(function(btn) {
+            btn.addEventListener('mousemove', function(e) {
+                var r = btn.getBoundingClientRect();
+                var x = e.clientX - r.left - r.width / 2;
+                var y = e.clientY - r.top - r.height / 2;
+                btn.style.transform = 'translate(' + (x * 0.25) + 'px,' + (y * 0.25) + 'px)';
+            });
+            btn.addEventListener('mouseleave', function() {
+                btn.style.transform = '';
+            });
+        });
+    }
+
+    // ---- Hover sound on interactive ----
+    function initHoverSound() {
+        if (!prefs.fxOn) return;
+        if (prefs.effectMode === 'low') return;
+        var t = null;
+        document.addEventListener('mouseover', function(e) {
+            var el = e.target.closest('a, button, .anx-btn, .anx-nav-link');
+            if (!el) return;
+            if (t) return;
+            t = setTimeout(function() { t = null; }, 120);
+            soundFX('hover');
+        });
+    }
+
+    // ---- Init all ----
+    document.addEventListener('DOMContentLoaded', function() {
+        applyTheme();
+        initGate();
+        initCursor();
+        initParticles();
+        initPlayer();
+        initSettings();
+        initScroll();
+        initReveal();
+        initTilt();
+        initMagnetic();
+        initHoverSound();
+
+        // Enter key on gate
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && document.getElementById('anx-gate') && !document.getElementById('anx-gate').classList.contains('gone')) {
+                document.getElementById('anx-enter-btn').click();
+            }
+        });
+    });
+})();
+</script>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

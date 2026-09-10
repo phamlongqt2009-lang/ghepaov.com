@@ -1,0 +1,1083 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    /* ============================================================
+       HOME — Sakura Drive anime hero + services + process + CTA
+       ============================================================ */
+
+    /* ========= HERO ========= */
+    .anx-hero {
+        position: relative;
+        min-height: calc(100vh - 100px);
+        display: flex;
+        align-items: center;
+        padding: 60px 0 40px;
+        overflow: hidden;
+    }
+    @media (max-width: 900px) {
+        .anx-hero { min-height: auto; padding: 40px 0 24px; }
+    }
+
+    .anx-hero-inner {
+        width: 100%;
+        max-width: 1320px;
+        margin-inline: auto;
+        padding-inline: 24px;
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 60px;
+        align-items: center;
+    }
+    @media (max-width: 900px) {
+        .anx-hero-inner { grid-template-columns: 1fr; gap: 48px; padding-inline: 16px; }
+    }
+
+    /* Hero copy */
+    .anx-hero-eyebrow { margin-bottom: 24px; }
+
+    .anx-hero-jp-side {
+        position: absolute;
+        right: 40px; top: 50%;
+        transform: translateY(-50%);
+        writing-mode: vertical-rl;
+        font-family: var(--font-jp);
+        font-weight: 900;
+        font-size: 1.4rem;
+        letter-spacing: 0.5em;
+        color: rgba(255, 45, 149, 0.25);
+        text-transform: uppercase;
+        pointer-events: none;
+        user-select: none;
+        white-space: nowrap;
+    }
+    @media (max-width: 1100px) { .anx-hero-jp-side { display: none; } }
+
+    .anx-hero-title {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: clamp(2.4rem, 6.5vw, 5.5rem);
+        line-height: 0.94;
+        letter-spacing: -0.03em;
+        color: var(--fg);
+        margin-bottom: 24px;
+    }
+    .anx-hero-title .line { display: block; }
+    .anx-hero-title .line-1 { animation-delay: 0.1s; }
+    .anx-hero-title .line-2 { animation-delay: 0.25s; }
+    .anx-hero-title .line-3 { animation-delay: 0.4s; }
+
+    .anx-hero-title .stroke {
+        -webkit-text-stroke: 2px var(--pink);
+        color: transparent;
+        display: inline-block;
+    }
+    .anx-hero-title .grad {
+        background: linear-gradient(135deg, var(--pink), var(--violet), var(--cyan));
+        background-size: 200% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+        animation: anx-grad-shift 6s ease-in-out infinite;
+    }
+    @keyframes anx-grad-shift {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+    }
+
+    .anx-hero-desc {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: var(--fg-muted);
+        max-width: 520px;
+        margin-bottom: 40px;
+        animation: anx-slide-up 0.9s 0.55s cubic-bezier(0.2, 0.9, 0.4, 1) both;
+    }
+    .anx-hero-desc b { color: var(--fg); font-weight: 600; }
+
+    @keyframes anx-slide-up {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: none; }
+    }
+
+    .anx-hero-cta {
+        display: flex; gap: 12px; flex-wrap: wrap;
+        margin-bottom: 48px;
+        animation: anx-slide-up 0.9s 0.7s cubic-bezier(0.2, 0.9, 0.4, 1) both;
+    }
+
+    .anx-hero-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        border-top: 1px solid var(--line-1);
+        border-bottom: 1px solid var(--line-1);
+        animation: anx-slide-up 0.9s 0.85s cubic-bezier(0.2, 0.9, 0.4, 1) both;
+    }
+    .anx-hero-stat {
+        padding: 20px 0;
+        border-right: 1px solid var(--line-1);
+        display: flex; flex-direction: column; gap: 6px;
+        position: relative;
+    }
+    .anx-hero-stat:last-child { border-right: none; }
+    .anx-hero-stat:not(:first-child) { padding-left: 22px; }
+    .anx-hero-stat .num {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.7rem;
+        line-height: 1;
+        letter-spacing: -0.03em;
+        color: var(--fg);
+        display: flex;
+        align-items: baseline;
+        gap: 4px;
+    }
+    .anx-hero-stat .num .unit {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        color: var(--pink);
+        letter-spacing: 0.1em;
+        font-weight: 500;
+    }
+    .anx-hero-stat .lbl {
+        font-family: var(--font-mono);
+        font-size: 0.62rem;
+        color: var(--fg-dim);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+    }
+
+    /* Visual side */
+    .anx-hero-visual {
+        position: relative;
+        height: 520px;
+    }
+    @media (max-width: 900px) { .anx-hero-visual { height: 420px; } }
+
+    /* Anime-style frame card */
+    .anx-vis-frame {
+        position: absolute;
+        background: linear-gradient(135deg, rgba(12,10,28,0.9), rgba(20,16,40,0.85));
+        border: 1px solid var(--line-1);
+        border-radius: var(--r-4);
+        overflow: hidden;
+        box-shadow: 0 24px 60px -20px rgba(0,0,0,0.8), 0 0 40px -10px var(--pink-glow);
+        backdrop-filter: blur(10px);
+    }
+    .anx-vis-frame::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, transparent 60%, rgba(255,45,149,0.08));
+        pointer-events: none;
+    }
+
+    .anx-vf-main {
+        top: 0; left: 0; right: 40px; height: 400px;
+        z-index: 3;
+        animation: anx-vis-float-1 7s ease-in-out infinite;
+    }
+    .anx-vf-head {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--line-1);
+        background: rgba(0,0,0,0.3);
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--fg-dim);
+    }
+    .anx-vf-head .dots {
+        display: flex; gap: 5px;
+    }
+    .anx-vf-head .dots span {
+        width: 7px; height: 7px; border-radius: 50%;
+        background: var(--fg-faint);
+    }
+    .anx-vf-head .dots span:nth-child(1) { background: var(--pink); box-shadow: 0 0 8px var(--pink-glow); }
+    .anx-vf-head .dots span:nth-child(2) { background: var(--cyan); box-shadow: 0 0 8px var(--cyan-glow); }
+    .anx-vf-head .dots span:nth-child(3) { background: var(--gold); }
+
+    .anx-vf-body {
+        padding: 16px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+    .anx-skin-tile {
+        aspect-ratio: 1/1;
+        background: linear-gradient(135deg, #1a1530, #0e0a1c);
+        border: 1px solid var(--line-1);
+        border-radius: var(--r-2);
+        position: relative;
+        overflow: hidden;
+        animation: anx-tile-shine 3s ease-in-out infinite;
+    }
+    @keyframes anx-tile-shine {
+        0%, 100% { border-color: var(--line-1); }
+        50% { border-color: rgba(255,45,149,0.3); }
+    }
+    .anx-skin-tile::before {
+        content: '';
+        position: absolute; inset: 0;
+        background: linear-gradient(135deg, transparent 45%, rgba(196, 255, 0, 0.1) 45%, rgba(196, 255, 0, 0.1) 55%, transparent 55%);
+        opacity: 0.5;
+    }
+    .anx-skin-tile.hot::after {
+        content: 'MAX';
+        position: absolute; top: 4px; right: 4px;
+        font-family: var(--font-mono);
+        font-size: 0.55rem;
+        font-weight: 700;
+        color: var(--pink);
+        background: rgba(255,45,149,0.15);
+        border: 1px solid var(--pink);
+        padding: 1px 5px;
+        letter-spacing: 0.1em;
+        border-radius: 3px;
+    }
+    .anx-skin-tile.hot {
+        animation: anx-tile-pulse 2s ease-in-out infinite;
+    }
+    @keyframes anx-tile-pulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(255,45,149,0); }
+        50% { box-shadow: 0 0 16px 2px rgba(255,45,149,0.3); }
+    }
+
+    /* Overlay balance card */
+    .anx-vf-balance {
+        top: 260px;
+        right: 0;
+        width: 250px;
+        z-index: 5;
+        animation: anx-vis-float-2 6s ease-in-out infinite;
+    }
+    .anx-vf-balance .anx-vf-body {
+        display: block;
+        padding: 20px;
+    }
+    .anx-vf-balance .amount {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 2rem;
+        letter-spacing: -0.03em;
+        color: var(--pink);
+        line-height: 1;
+        margin-bottom: 8px;
+        text-shadow: 0 0 20px var(--pink-glow);
+    }
+    .anx-vf-balance .meta {
+        font-family: var(--font-mono);
+        font-size: 0.62rem;
+        color: var(--fg-dim);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+    }
+    .anx-vf-balance .progress {
+        height: 3px;
+        background: var(--bg-3);
+        border-radius: 999px;
+        overflow: hidden;
+        margin-top: 14px;
+    }
+    .anx-vf-balance .progress span {
+        display: block;
+        height: 100%;
+        width: 65%;
+        background: linear-gradient(90deg, var(--pink), var(--cyan));
+        border-radius: 999px;
+        box-shadow: 0 0 12px var(--pink-glow);
+    }
+
+    /* Live card */
+    .anx-vf-live {
+        bottom: 20px;
+        left: 50px;
+        width: 240px;
+        z-index: 6;
+        animation: anx-vis-float-3 8s ease-in-out infinite;
+    }
+    .anx-vf-live .anx-vf-body {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 18px;
+    }
+    .anx-vf-live .dot {
+        width: 8px; height: 8px;
+        background: var(--green);
+        border-radius: 50%;
+        box-shadow: 0 0 8px var(--green);
+        flex-shrink: 0;
+        animation: anx-pulse-dot 1.5s ease-in-out infinite;
+    }
+    @keyframes anx-pulse-dot {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+    }
+    .anx-vf-live .txt {
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        color: var(--fg-muted);
+        letter-spacing: 0.04em;
+        line-height: 1.4;
+    }
+    .anx-vf-live .txt b { color: var(--fg); }
+
+    /* Floating JP badge */
+    .anx-jp-badge {
+        position: absolute;
+        top: 40px; right: -10px;
+        z-index: 7;
+        padding: 10px 16px;
+        background: linear-gradient(135deg, var(--pink), var(--violet));
+        border-radius: var(--r-3);
+        font-family: var(--font-jp);
+        font-weight: 900;
+        font-size: 0.9rem;
+        color: #fff;
+        letter-spacing: 0.2em;
+        box-shadow: 0 12px 32px -8px var(--pink-glow), 0 0 32px var(--pink-glow);
+        animation: anx-badge-wobble 4s ease-in-out infinite;
+        text-transform: uppercase;
+    }
+    @keyframes anx-badge-wobble {
+        0%, 100% { transform: rotate(-4deg) translateY(0); }
+        50% { transform: rotate(-2deg) translateY(-6px); }
+    }
+
+    @keyframes anx-vis-float-1 {
+        0%, 100% { transform: translateY(0) rotate(0); }
+        50% { transform: translateY(-10px) rotate(-0.5deg); }
+    }
+    @keyframes anx-vis-float-2 {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-14px); }
+    }
+    @keyframes anx-vis-float-3 {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+    }
+
+    /* ========= TICKER ========= */
+    .anx-ticker {
+        border-top: 1px solid var(--line-1);
+        border-bottom: 1px solid var(--line-1);
+        background: linear-gradient(90deg, rgba(255,45,149,0.03), rgba(0,229,255,0.03));
+        overflow: hidden;
+        margin-top: 64px;
+        position: relative;
+    }
+    .anx-ticker::before, .anx-ticker::after {
+        content: '';
+        position: absolute;
+        top: 0; bottom: 0;
+        width: 80px;
+        z-index: 2;
+        pointer-events: none;
+    }
+    .anx-ticker::before { left: 0; background: linear-gradient(90deg, var(--void), transparent); }
+    .anx-ticker::after { right: 0; background: linear-gradient(270deg, var(--void), transparent); }
+    .anx-ticker-track {
+        display: flex;
+        gap: 60px;
+        padding: 16px 0;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        font-weight: 500;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--fg-muted);
+        animation: anx-scroll 45s linear infinite;
+        white-space: nowrap;
+        width: max-content;
+    }
+    @keyframes anx-scroll {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+    }
+    .anx-ticker-track span {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .anx-ticker-track span::after {
+        content: '◆';
+        color: var(--pink);
+        font-size: 0.5rem;
+    }
+
+    /* ========= SECTION ========= */
+    .anx-section {
+        max-width: 1320px;
+        margin-inline: auto;
+        padding: 96px 24px 0;
+    }
+    @media (max-width: 640px) { .anx-section { padding: 64px 16px 0; } }
+
+    .anx-section-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 40px;
+        margin-bottom: 52px;
+        flex-wrap: wrap;
+    }
+    .anx-section-head .left { max-width: 620px; }
+    .anx-section-head h2 {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: clamp(1.9rem, 4vw, 2.8rem);
+        line-height: 1.02;
+        letter-spacing: -0.025em;
+        color: var(--fg);
+        margin-top: 20px;
+    }
+    .anx-section-head h2 em {
+        color: var(--pink);
+        font-style: normal;
+        display: inline-block;
+    }
+    .anx-section-head h2 .stroke {
+        -webkit-text-stroke: 1.5px var(--pink);
+        color: transparent;
+    }
+    .anx-section-head p {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: var(--fg-muted);
+        max-width: 420px;
+    }
+
+    /* ========= SERVICES ========= */
+    .anx-services {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 16px;
+    }
+    @media (max-width: 900px) { .anx-services { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .anx-services { grid-template-columns: 1fr; } }
+
+    .anx-service {
+        position: relative;
+        padding: 28px 26px;
+        background: var(--bg-2);
+        border: 1px solid var(--line-1);
+        border-radius: var(--r-4);
+        display: flex;
+        flex-direction: column;
+        min-height: 290px;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+        isolation: isolate;
+    }
+    .anx-service::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(600px 200px at 0% 0%, var(--pink-soft), transparent 60%);
+        opacity: 0;
+        transition: opacity 0.4s;
+        z-index: -1;
+    }
+    .anx-service::after {
+        content: '';
+        position: absolute;
+        top: 0; left: -100%;
+        width: 100%; height: 100%;
+        background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.05) 50%, transparent 70%);
+        transition: left 0.7s cubic-bezier(0.2, 0.9, 0.4, 1);
+        z-index: 0;
+        pointer-events: none;
+    }
+    .anx-service:hover {
+        border-color: var(--line-3);
+        transform: translateY(-6px);
+        box-shadow: 0 24px 60px -20px rgba(0,0,0,0.7), 0 0 60px -20px var(--pink-glow);
+    }
+    .anx-service:hover::before { opacity: 1; }
+    .anx-service:hover::after { left: 100%; }
+
+    .anx-service > * { position: relative; z-index: 1; }
+
+    .anx-service-num {
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        color: var(--fg-dim);
+        margin-bottom: 22px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-transform: uppercase;
+    }
+    .anx-service-num::before { content: '['; color: var(--pink); }
+    .anx-service-num::after { content: ']'; color: var(--pink); }
+    .anx-service:hover .anx-service-num { color: var(--pink); }
+
+    .anx-service-icon {
+        width: 58px; height: 58px;
+        border-radius: var(--r-3);
+        background: var(--bg-3);
+        border: 1px solid var(--line-1);
+        display: flex; align-items: center; justify-content: center;
+        color: var(--fg);
+        margin-bottom: 22px;
+        transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1);
+        position: relative;
+    }
+    .anx-service-icon::after {
+        content: '';
+        position: absolute;
+        inset: -3px;
+        border-radius: var(--r-3);
+        background: conic-gradient(from 0deg, var(--pink), var(--cyan), var(--violet), var(--pink));
+        opacity: 0;
+        z-index: -1;
+        transition: opacity 0.35s;
+        animation: anx-spin-ring 4s linear infinite;
+    }
+    .anx-service:hover .anx-service-icon {
+        color: #fff;
+        background: linear-gradient(135deg, var(--pink), var(--violet));
+        border-color: transparent;
+        transform: rotate(-6deg) scale(1.05);
+    }
+    .anx-service:hover .anx-service-icon::after { opacity: 0.6; }
+    .anx-service-icon svg { width: 26px; height: 26px; }
+
+    .anx-service-title {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.4rem;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        color: var(--fg);
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+    }
+    .anx-service-title .arrow {
+        color: var(--fg-dim);
+        transition: all 0.3s;
+        transform: translateX(-8px);
+        opacity: 0;
+        flex-shrink: 0;
+    }
+    .anx-service:hover .anx-service-title .arrow {
+        color: var(--pink);
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    .anx-service-desc {
+        font-size: 0.92rem;
+        line-height: 1.6;
+        color: var(--fg-muted);
+        margin-top: auto;
+    }
+
+    /* Grid spans */
+    .anx-s-1 { grid-column: span 6; }
+    .anx-s-2 { grid-column: span 6; }
+    .anx-s-3 { grid-column: span 4; }
+    .anx-s-4 { grid-column: span 4; }
+    .anx-s-5 { grid-column: span 4; }
+    @media (max-width: 900px) {
+        .anx-s-1, .anx-s-2, .anx-s-3, .anx-s-4, .anx-s-5 { grid-column: span 1; }
+    }
+
+    /* Highlight card */
+    .anx-service.highlight {
+        background: linear-gradient(135deg, var(--bg-2), rgba(255,45,149,0.06));
+        border-color: rgba(255,45,149,0.3);
+    }
+    .anx-service.highlight .anx-service-icon {
+        background: var(--pink-soft);
+        border-color: var(--line-3);
+        color: var(--pink);
+    }
+
+    /* ========= PROCESS ========= */
+    .anx-process {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border: 1px solid var(--line-1);
+        border-radius: var(--r-4);
+        overflow: hidden;
+        background: var(--bg-2);
+        position: relative;
+    }
+    @media (max-width: 800px) { .anx-process { grid-template-columns: 1fr; } }
+
+    .anx-step {
+        padding: 40px 32px;
+        border-right: 1px solid var(--line-1);
+        position: relative;
+        transition: background 0.3s;
+        overflow: hidden;
+    }
+    .anx-step:last-child { border-right: none; }
+    @media (max-width: 800px) {
+        .anx-step { border-right: none; border-bottom: 1px solid var(--line-1); }
+        .anx-step:last-child { border-bottom: none; }
+    }
+    .anx-step::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 0; height: 2px;
+        background: linear-gradient(90deg, var(--pink), var(--cyan));
+        transition: width 0.6s cubic-bezier(0.2, 0.9, 0.4, 1);
+    }
+    .anx-step:hover::before { width: 100%; }
+    .anx-step:hover { background: var(--bg-3); }
+
+    .anx-step-num {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 22px;
+    }
+    .anx-step-num .circle {
+        width: 46px; height: 46px;
+        border-radius: var(--r-3);
+        background: linear-gradient(135deg, var(--pink), var(--violet));
+        display: flex; align-items: center; justify-content: center;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: #fff;
+        box-shadow: 0 8px 24px -8px var(--pink-glow);
+        flex-shrink: 0;
+    }
+    .anx-step-num .line {
+        flex: 1;
+        height: 1px;
+        background: repeating-linear-gradient(to right, var(--line-1) 0, var(--line-1) 4px, transparent 4px, transparent 8px);
+    }
+    .anx-step-title {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.2rem;
+        letter-spacing: -0.02em;
+        color: var(--fg);
+        margin-bottom: 12px;
+    }
+    .anx-step-desc {
+        font-size: 0.92rem;
+        line-height: 1.65;
+        color: var(--fg-muted);
+    }
+
+    /* ========= CTA ========= */
+    .anx-cta {
+        max-width: 1320px;
+        margin: 96px auto 0;
+        padding: 0 24px;
+    }
+    @media (max-width: 640px) { .anx-cta { padding: 0 16px; margin-top: 64px; } }
+
+    .anx-cta-card {
+        position: relative;
+        padding: 72px 56px;
+        background: linear-gradient(135deg, rgba(255,45,149,0.08) 0%, var(--bg-2) 55%, rgba(0,229,255,0.05) 100%);
+        border: 1px solid var(--line-3);
+        border-radius: var(--r-4);
+        overflow: hidden;
+        isolation: isolate;
+    }
+    @media (max-width: 640px) { .anx-cta-card { padding: 44px 24px; } }
+
+    .anx-cta-card::before {
+        content: '';
+        position: absolute;
+        top: -50%; right: -20%;
+        width: 600px; height: 600px;
+        background: radial-gradient(circle, rgba(255,45,149,0.2), transparent 65%);
+        pointer-events: none;
+    }
+    .anx-cta-card::after {
+        content: '// ANX_READY_2026';
+        position: absolute;
+        top: 24px; right: 32px;
+        font-family: var(--font-mono);
+        font-size: 0.62rem;
+        color: var(--pink);
+        letter-spacing: 0.16em;
+        opacity: 0.8;
+        text-transform: uppercase;
+    }
+
+    .anx-cta-card > * { position: relative; z-index: 1; }
+
+    .anx-cta-jp {
+        font-family: var(--font-jp);
+        font-weight: 900;
+        font-size: 1.2rem;
+        letter-spacing: 0.4em;
+        color: var(--pink);
+        margin-bottom: 18px;
+        text-transform: uppercase;
+        opacity: 0.9;
+    }
+    .anx-cta-card h2 {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: clamp(2rem, 4.5vw, 3.4rem);
+        line-height: 0.98;
+        letter-spacing: -0.03em;
+        color: var(--fg);
+        margin-bottom: 20px;
+        max-width: 720px;
+    }
+    .anx-cta-card h2 .grad {
+        background: linear-gradient(135deg, var(--pink), var(--violet), var(--cyan));
+        background-size: 200% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+        animation: anx-grad-shift 6s ease-in-out infinite;
+    }
+    .anx-cta-card p {
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: var(--fg-muted);
+        max-width: 580px;
+        margin-bottom: 36px;
+    }
+
+    .anx-cta-actions {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    /* ========= SCROLL HINT ========= */
+    .anx-scroll-hint {
+        position: absolute;
+        bottom: 32px; left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--fg-dim);
+        animation: anx-slide-up 1s 1.2s cubic-bezier(0.2, 0.9, 0.4, 1) both;
+    }
+    @media (max-width: 900px) { .anx-scroll-hint { display: none; } }
+    .anx-scroll-hint .arrow {
+        width: 20px; height: 30px;
+        border: 1.5px solid var(--fg-dim);
+        border-radius: 12px;
+        position: relative;
+    }
+    .anx-scroll-hint .arrow::before {
+        content: '';
+        position: absolute;
+        top: 6px; left: 50%;
+        width: 2px; height: 6px;
+        background: var(--pink);
+        border-radius: 2px;
+        transform: translateX(-50%);
+        animation: anx-scroll-dot 1.8s ease-in-out infinite;
+        box-shadow: 0 0 6px var(--pink-glow);
+    }
+    @keyframes anx-scroll-dot {
+        0%, 100% { opacity: 1; top: 6px; }
+        50% { opacity: 0.3; top: 16px; }
+    }
+
+    /* ========= RESPONSIVE ========= */
+    @media (max-width: 480px) {
+        .anx-hero-stat { padding: 16px 0; }
+        .anx-hero-stat:not(:first-child) { padding-left: 14px; }
+        .anx-hero-stat .num { font-size: 1.3rem; }
+        .anx-vf-main { right: 20px; height: 320px; }
+        .anx-vf-balance { width: 200px; }
+        .anx-vf-live { left: 20px; width: 180px; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+<section class="anx-hero">
+    <div class="anx-hero-jp-side">憑依 · 自動 · 高速</div>
+
+    <div class="anx-hero-inner">
+        <div class="anx-hero-copy">
+            <div class="anx-hero-eyebrow anx-eyebrow">// ANIME DIGITAL EXPERIENCE</div>
+
+            <h1 class="anx-hero-title">
+                <span class="line line-1">GHÉP ẢNH</span>
+                <span class="line line-2">ACC <span class="stroke">LIÊN QUÂN</span></span>
+                <span class="line line-3">SIÊU <span class="grad">TỐC ĐỘ</span></span>
+            </h1>
+
+            <p class="anx-hero-desc">
+                {% if username %}
+                Chào <b>{{ username }}</b> — hệ thống đã sẵn sàng. Trích xuất toàn bộ kho skin và render ảnh chất lượng cao chỉ trong vài giây.
+                {% else %}
+                Hệ thống tự động hoá 100% — trích xuất toàn bộ kho skin, render ảnh chất lượng cao, không cần thao tác thủ công.
+                {% endif %}
+            </p>
+
+            <div class="anx-hero-cta">
+                <a href="{{ url_for('merge_page') }}" class="anx-btn anx-btn-primary anx-btn-lg" data-anx-magnetic data-anx-sound>
+                    Ghép ảnh ngay
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
+                <a href="{{ url_for('payment') }}" class="anx-btn anx-btn-lg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+                    Nạp tiền
+                </a>
+            </div>
+
+            <div class="anx-hero-stats">
+                <div class="anx-hero-stat">
+                    <div class="num" data-balance-display="true">{{ balance|default('0') }}<span class="unit">Đ</span></div>
+                    <div class="lbl">// Số dư</div>
+                </div>
+                <div class="anx-hero-stat">
+                    <div class="num">{{ site_settings.price_per_skin or 50 }}<span class="unit">Đ/ẢNH</span></div>
+                    <div class="lbl">// Giá ghép</div>
+                </div>
+                <div class="anx-hero-stat">
+                    <div class="num">99.9<span class="unit">%</span></div>
+                    <div class="lbl">// Uptime</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="anx-hero-visual" aria-hidden="true">
+            <!-- Floating Japanese badge -->
+            <div class="anx-jp-badge">憑</div>
+
+            <!-- Main preview frame -->
+            <div class="anx-vis-frame anx-vf-main">
+                <div class="anx-vf-head">
+                    <div class="dots"><span></span><span></span><span></span></div>
+                    <span>preview.render.lq</span>
+                    <span style="color: var(--pink)">● LIVE</span>
+                </div>
+                <div class="anx-vf-body">
+                    {% for i in range(9) %}
+                    <div class="anx-skin-tile {% if i in [1, 5, 7] %}hot{% endif %}"></div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Balance overlay -->
+            <div class="anx-vis-frame anx-vf-balance">
+                <div class="anx-vf-head">
+                    <span>// balance</span>
+                    <span style="color: var(--pink)">●</span>
+                </div>
+                <div class="anx-vf-body">
+                    <div class="amount" data-balance-display="true">{{ balance|default('0') }}đ</div>
+                    <div class="meta">Cập nhật tức thì</div>
+                    <div class="progress"><span></span></div>
+                </div>
+            </div>
+
+            <!-- Live activity -->
+            <div class="anx-vis-frame anx-vf-live">
+                <div class="anx-vf-body">
+                    <span class="dot"></span>
+                    <div class="txt">
+                        <b>ONLINE</b> · 1,248 ảnh<br/>
+                        đã được ghép hôm nay
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="anx-scroll-hint">
+        <span>Scroll to explore</span>
+        <div class="arrow"></div>
+    </div>
+</section>
+
+<!-- ================= TICKER ================= -->
+<div class="anx-ticker">
+    <div class="anx-ticker-track">
+        <span>TỐC ĐỘ ~3 GIÂY</span>
+        <span>TỰ ĐỘNG HOÁ 100%</span>
+        <span>SHA-256 BẢO MẬT</span>
+        <span>NẠP TIỀN 24/7</span>
+        <span>HỖ TRỢ EVO 1-6 &amp; MAX</span>
+        <span>VIỀN · PHỤ KIỆN · TOP TƯỚNG</span>
+        <span>UPTIME 99.9%</span>
+        <span>TỐC ĐỘ ~3 GIÂY</span>
+        <span>TỰ ĐỘNG HOÁ 100%</span>
+        <span>SHA-256 BẢO MẬT</span>
+        <span>NẠP TIỀN 24/7</span>
+        <span>HỖ TRỢ EVO 1-6 &amp; MAX</span>
+        <span>VIỀN · PHỤ KIỆN · TOP TƯỚNG</span>
+        <span>UPTIME 99.9%</span>
+    </div>
+</div>
+
+<!-- ================= SERVICES ================= -->
+<section class="anx-section">
+    <div class="anx-section-head">
+        <div class="left">
+            <div class="anx-eyebrow">// CORE_SERVICES</div>
+            <h2>Mọi thứ bạn cần, <em>một studio.</em></h2>
+        </div>
+        <p>Từ ghép ảnh, nạp tiền đến quản lý lịch sử — tất cả tự động hoá, tốc độ cao, bảo mật tuyệt đối.</p>
+    </div>
+
+    <div class="anx-services">
+
+        <a href="{{ url_for('merge_page') }}" class="anx-service anx-s-1 highlight anx-reveal" data-anx-tilt>
+            <span class="anx-service-num">01 · Ghép ảnh</span>
+            <div class="anx-service-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/><path d="m13 16 4 4 4-4"/></svg>
+            </div>
+            <h3 class="anx-service-title">
+                <span>Ghép ảnh skin</span>
+                <svg class="arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </h3>
+            <p class="anx-service-desc">
+                Quét toàn bộ kho đồ và render ảnh chất lượng cao. Hỗ trợ viền, EVO 1-6 &amp; MAX, phụ kiện, avatar, top tướng.
+            </p>
+        </a>
+
+        <a href="{{ url_for('payment') }}" class="anx-service anx-s-2 anx-reveal" data-anx-tilt>
+            <span class="anx-service-num">02 · Nạp tiền</span>
+            <div class="anx-service-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+            </div>
+            <h3 class="anx-service-title">
+                <span>Nạp tiền tự động</span>
+                <svg class="arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </h3>
+            <p class="anx-service-desc">
+                Quét QR ngân hàng — cộng tiền tự động trong vài giây. Hỗ trợ 24/7, không cần chờ duyệt.
+            </p>
+        </a>
+
+        <a href="{{ url_for('history') }}" class="anx-service anx-s-3 anx-reveal" data-anx-tilt>
+            <span class="anx-service-num">03 · Lịch sử</span>
+            <div class="anx-service-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+            </div>
+            <h3 class="anx-service-title">
+                <span>Lịch sử</span>
+                <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </h3>
+            <p class="anx-service-desc">
+                Xem lại toàn bộ ảnh đã tạo, tải xuống lại bất cứ lúc nào.
+            </p>
+        </a>
+
+        <a href="{{ url_for('updates') }}" class="anx-service anx-s-4 anx-reveal" data-anx-tilt>
+            <span class="anx-service-num">04 · Updates</span>
+            <div class="anx-service-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <h3 class="anx-service-title">
+                <span>Cập nhật</span>
+                <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </h3>
+            <p class="anx-service-desc">
+                Theo dõi tính năng mới, bản vá và thông báo.
+            </p>
+        </a>
+
+        <a href="{{ url_for('privacy_policy') }}" class="anx-service anx-s-5 anx-reveal" data-anx-tilt>
+            <span class="anx-service-num">05 · Legal</span>
+            <div class="anx-service-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3 class="anx-service-title">
+                <span>Chính sách</span>
+                <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </h3>
+            <p class="anx-service-desc">
+                Bảo mật, điều khoản &amp; miễn trừ trách nhiệm.
+            </p>
+        </a>
+
+    </div>
+</section>
+
+<!-- ================= PROCESS ================= -->
+<section class="anx-section">
+    <div class="anx-section-head">
+        <div class="left">
+            <div class="anx-eyebrow">// HOW_IT_WORKS</div>
+            <h2>Ba bước — xong trong <em>30 giây.</em></h2>
+        </div>
+    </div>
+
+    <div class="anx-process anx-reveal">
+        <div class="anx-step">
+            <div class="anx-step-num">
+                <div class="circle">01</div>
+                <div class="line"></div>
+            </div>
+            <h3 class="anx-step-title">Nạp tiền vào tài khoản</h3>
+            <p class="anx-step-desc">
+                Quét QR ngân hàng. Hệ thống tự động cộng tiền sau vài giây — không cần chờ admin duyệt.
+            </p>
+        </div>
+
+        <div class="anx-step">
+            <div class="anx-step-num">
+                <div class="circle">02</div>
+                <div class="line"></div>
+            </div>
+            <h3 class="anx-step-title">Nhập thông tin acc</h3>
+            <p class="anx-step-desc">
+                Điền tài khoản Garena, chọn viền / EVO / phụ kiện. Nhấn ghép — hệ thống xử lý tự động.
+            </p>
+        </div>
+
+        <div class="anx-step">
+            <div class="anx-step-num">
+                <div class="circle">03</div>
+                <div class="line"></div>
+            </div>
+            <h3 class="anx-step-title">Nhận &amp; tải ảnh</h3>
+            <p class="anx-step-desc">
+                Ảnh hiện ngay lập tức. Tuỳ chỉnh màu sắc nếu muốn rồi tải xuống chỉ với một click.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<div class="anx-cta">
+    <div class="anx-cta-card anx-reveal">
+        <div class="anx-cta-jp">準備完了</div>
+        <h2>Sẵn sàng tạo <span class="grad">tác phẩm đầu tiên?</span></h2>
+        <p>Chỉ mất 30 giây. Không cần kinh nghiệm. Đội ngũ hỗ trợ 24/7 qua Telegram và Zalo nếu bạn cần giúp đỡ.</p>
+        <div class="anx-cta-actions">
+            <a href="{{ url_for('merge_page') }}" class="anx-btn anx-btn-primary anx-btn-lg" data-anx-magnetic>
+                Bắt đầu ngay
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            <a href="{{ url_for('payment') }}" class="anx-btn anx-btn-lg">
+                Nạp tiền trước
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

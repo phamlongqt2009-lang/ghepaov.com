@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block title %}Website đang bảo trì{% endblock %}
+
+{% block head %}
+<style>
+    .maint-wrap {
+        max-width: 640px;
+        margin: 80px auto;
+        padding: 0 20px;
+        position: relative;
+    }
+    @media (max-width: 640px) { .maint-wrap { margin: 40px auto; } }
+
+    .maint-card {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-xl);
+        padding: 64px 48px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+    }
+    @media (max-width: 640px) { .maint-card { padding: 48px 28px; } }
+
+    .maint-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(500px 300px at 50% -20%, rgba(245, 165, 36, 0.14), transparent 65%),
+            radial-gradient(400px 200px at 100% 100%, rgba(56, 189, 248, 0.06), transparent 60%);
+        pointer-events: none;
+    }
+    .maint-card::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+    }
+    .maint-card > * { position: relative; z-index: 1; }
+
+    .maint-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 16px 6px 12px;
+        border-radius: var(--radius-full);
+        background: rgba(245, 165, 36, 0.10);
+        border: 1px solid rgba(245, 165, 36, 0.28);
+        color: var(--color-primary);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 24px;
+    }
+    .maint-badge .dot {
+        width: 7px; height: 7px;
+        background: var(--color-primary);
+        border-radius: 50%;
+        box-shadow: 0 0 10px var(--color-primary);
+        animation: pulse-dot 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.35; transform: scale(0.85); }
+    }
+
+    .maint-icon {
+        width: 96px; height: 96px;
+        margin: 0 auto 28px;
+        border-radius: var(--radius-xl);
+        background: linear-gradient(135deg, rgba(245, 165, 36, 0.15), rgba(180, 83, 9, 0.05));
+        border: 1px solid rgba(245, 165, 36, 0.22);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
+    }
+    .maint-icon svg {
+        width: 44px; height: 44px;
+        color: var(--color-primary);
+        animation: spin-slow 8s linear infinite;
+    }
+    @keyframes spin-slow {
+        to { transform: rotate(360deg); }
+    }
+
+    .maint-title {
+        font-family: var(--font-display);
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        font-weight: 800;
+        letter-spacing: -0.8px;
+        line-height: 1.15;
+        color: var(--text-primary);
+        margin-bottom: 16px;
+    }
+    .maint-title span {
+        background: linear-gradient(135deg, var(--color-primary), #fbbf24);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .maint-desc {
+        color: var(--text-secondary);
+        font-size: 0.98rem;
+        line-height: 1.7;
+        max-width: 440px;
+        margin: 0 auto 32px;
+    }
+
+    .maint-progress {
+        height: 4px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 999px;
+        overflow: hidden;
+        max-width: 280px;
+        margin: 0 auto;
+        position: relative;
+    }
+    .maint-progress::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+        animation: shimmer 2s linear infinite;
+    }
+    @keyframes shimmer {
+        from { transform: translateX(-100%); }
+        to { transform: translateX(100%); }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="maint-wrap">
+    <div class="maint-card">
+        <div class="maint-badge">
+            <span class="dot"></span>
+            Đang bảo trì
+        </div>
+
+        <div class="maint-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>
+        </div>
+
+        <h1 class="maint-title">
+            Website đang được <span>nâng cấp</span>
+        </h1>
+
+        <p class="maint-desc">
+            Chúng mình đang tiến hành bảo trì và cập nhật hệ thống để mang lại trải nghiệm tốt hơn cho bạn.<br/>
+            Vui lòng quay lại sau ít phút. Xin lỗi vì sự bất tiện này!
+        </p>
+
+        <div class="maint-progress"></div>
+    </div>
+</div>
+{% endblock %}

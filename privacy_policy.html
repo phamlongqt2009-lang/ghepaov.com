@@ -1,0 +1,428 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    .policy-page {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 32px 20px 60px;
+    }
+
+    /* ============ HEAD ============ */
+    .policy-head {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    .policy-head .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 14px;
+        border-radius: var(--radius-full);
+        background: var(--color-primary-soft);
+        border: 1px solid rgba(245, 165, 36, 0.22);
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--color-primary);
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        margin-bottom: 20px;
+    }
+    .policy-head h1 {
+        font-family: var(--font-display);
+        font-size: clamp(1.8rem, 4vw, 2.4rem);
+        font-weight: 800;
+        letter-spacing: -1.2px;
+        line-height: 1.1;
+        color: var(--text-primary);
+        margin-bottom: 12px;
+    }
+    .policy-head h1 span {
+        background: linear-gradient(135deg, var(--color-primary), #fbbf24);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .policy-head .meta-line {
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+    .policy-head .meta-line strong { color: var(--color-primary); }
+
+    /* ============ WARNING BANNER ============ */
+    .warning-banner {
+        display: flex;
+        gap: 14px;
+        padding: 16px 20px;
+        border-radius: var(--radius-lg);
+        background: rgba(245, 165, 36, 0.06);
+        border: 1px solid rgba(245, 165, 36, 0.22);
+        margin-bottom: 40px;
+        align-items: flex-start;
+    }
+    .warning-banner .ic {
+        flex-shrink: 0;
+        width: 34px; height: 34px;
+        border-radius: var(--radius-md);
+        background: var(--color-primary-soft);
+        color: var(--color-primary);
+        display: flex; align-items: center; justify-content: center;
+    }
+    .warning-banner .txt {
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+    .warning-banner .txt strong { color: var(--color-primary); }
+
+    /* ============ TOC ============ */
+    .toc {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-lg);
+        padding: 24px 28px;
+        margin-bottom: 40px;
+    }
+    .toc h3 {
+        font-family: var(--font-display);
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        margin-bottom: 16px;
+    }
+    .toc-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 10px;
+    }
+    .toc a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border-subtle);
+        background: rgba(0, 0, 0, 0.2);
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        transition: all .2s;
+    }
+    .toc a:hover {
+        border-color: rgba(245, 165, 36, 0.3);
+        color: var(--color-primary);
+        background: var(--color-primary-soft);
+        transform: translateX(3px);
+    }
+    .toc a .num {
+        font-family: var(--font-display);
+        font-size: 0.72rem;
+        font-weight: 800;
+        color: var(--color-primary);
+        opacity: 0.8;
+    }
+
+    /* ============ SECTIONS ============ */
+    .policy-section {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-xl);
+        padding: 36px 36px 28px;
+        margin-bottom: 24px;
+        position: relative;
+        overflow: hidden;
+        scroll-margin-top: 100px;
+    }
+    @media (max-width: 640px) { .policy-section { padding: 26px 22px 20px; } }
+
+    .policy-section::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; bottom: 0;
+        width: 3px;
+        background: linear-gradient(180deg, var(--color-primary), #b45309);
+    }
+    .policy-section:hover { border-color: var(--border-strong); }
+
+    .section-head {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 22px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--border-subtle);
+    }
+    .section-head .ic {
+        width: 42px; height: 42px;
+        border-radius: var(--radius-md);
+        background: var(--color-primary-soft);
+        border: 1px solid rgba(245, 165, 36, 0.22);
+        color: var(--color-primary);
+        display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+        font-size: 1.15rem;
+    }
+    .section-head h2 {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        color: var(--text-primary);
+    }
+
+    .policy-section h3 {
+        font-family: var(--font-display);
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 24px 0 12px;
+        letter-spacing: -0.2px;
+    }
+    .policy-section h3:first-child { margin-top: 0; }
+
+    .policy-section p {
+        color: var(--text-secondary);
+        font-size: 0.92rem;
+        line-height: 1.75;
+        margin-bottom: 12px;
+    }
+    .policy-section p strong {
+        color: var(--text-primary);
+        font-weight: 600;
+    }
+    .policy-section ul {
+        list-style: none;
+        padding: 0;
+        margin: 10px 0 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .policy-section ul li {
+        color: var(--text-secondary);
+        font-size: 0.92rem;
+        line-height: 1.65;
+        padding-left: 22px;
+        position: relative;
+    }
+    .policy-section ul li::before {
+        content: '';
+        position: absolute;
+        left: 4px; top: 9px;
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: var(--color-primary);
+        opacity: 0.7;
+    }
+    .policy-section ul li strong {
+        color: var(--text-primary);
+        font-weight: 600;
+    }
+
+    /* ============ FOOT NOTE ============ */
+    .policy-footer {
+        margin-top: 40px;
+        padding: 32px 24px;
+        text-align: center;
+        border-top: 1px solid var(--border-subtle);
+    }
+    .policy-footer p {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        line-height: 1.7;
+        margin-bottom: 16px;
+    }
+    .policy-footer p strong { color: var(--color-primary); }
+    .btn-back-policy {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 11px 24px;
+        background: linear-gradient(135deg, var(--color-primary), #d97706);
+        color: #1a1206;
+        border-radius: var(--radius-md);
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 0.88rem;
+        box-shadow: var(--shadow-accent);
+        transition: all .2s;
+        text-decoration: none;
+    }
+    .btn-back-policy:hover {
+        transform: translateY(-2px);
+        filter: brightness(1.05);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="policy-page">
+
+    <!-- ============ HEAD ============ -->
+    <div class="policy-head">
+        <div class="badge">🔒 Bảo mật &amp; Pháp lý</div>
+        <h1>Chính sách <span>bảo mật &amp; điều khoản</span></h1>
+        <div class="meta-line">
+            <span>Phiên bản <strong>2.0</strong></span>
+            <span>·</span>
+            <span>Cập nhật <strong>23/06/2026</strong></span>
+        </div>
+    </div>
+
+    <!-- ============ WARNING ============ -->
+    <div class="warning-banner">
+        <div class="ic">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="txt">
+            <strong>Đọc kỹ trước khi tiếp tục.</strong> Khi tiếp tục sử dụng dịch vụ, bạn xác nhận đã đọc, hiểu và đồng ý với toàn bộ nội dung dưới đây. Nếu không đồng ý, vui lòng ngừng sử dụng.
+        </div>
+    </div>
+
+    <!-- ============ TOC ============ -->
+    <div class="toc">
+        <h3>📑 Mục lục</h3>
+        <div class="toc-grid">
+            <a href="#privacy"><span class="num">01</span> Chính sách bảo mật</a>
+            <a href="#terms"><span class="num">02</span> Điều khoản sử dụng</a>
+            <a href="#disclaimer"><span class="num">03</span> Miễn trừ trách nhiệm</a>
+            <a href="#contact"><span class="num">04</span> Liên hệ hỗ trợ</a>
+        </div>
+    </div>
+
+    <!-- ============ SECTION 1 ============ -->
+    <section class="policy-section" id="privacy">
+        <div class="section-head">
+            <div class="ic">🔐</div>
+            <h2>Chính sách bảo mật</h2>
+        </div>
+        <p>Chúng tôi tôn trọng quyền riêng tư của bạn. Chính sách này mô tả cách hệ thống xử lý dữ liệu để vận hành dịch vụ một cách an toàn, minh bạch và tối giản.</p>
+
+        <h3>1. Dữ liệu có thể được ghi nhận</h3>
+        <ul>
+            <li><strong>Không lưu mật khẩu.</strong> Hệ thống không yêu cầu và không lưu trữ mật khẩu dưới bất kỳ hình thức nào.</li>
+            <li><strong>Dữ liệu vận hành:</strong> gói thuê, số lượt sử dụng, trạng thái xử lý, lịch sử thao tác, log lỗi (nếu có).</li>
+            <li><strong>Dữ liệu kỹ thuật tối thiểu:</strong> IP, thiết bị/trình duyệt, thời gian truy cập, cookie/phiên làm việc (nếu có) để duy trì phiên và tăng cường an toàn.</li>
+        </ul>
+
+        <h3>2. Mục đích sử dụng dữ liệu</h3>
+        <ul>
+            <li>Vận hành tool, xác thực lượt dùng, chống lạm dụng và gian lận.</li>
+            <li>Hỗ trợ CSKH, đối soát thanh toán và xử lý sự cố/khiếu nại.</li>
+            <li>Nâng cao độ ổn định, tối ưu trải nghiệm và an toàn hệ thống.</li>
+        </ul>
+
+        <h3>3. Lưu trữ &amp; chia sẻ</h3>
+        <ul>
+            <li>Dữ liệu chỉ được lưu trong thời gian cần thiết cho vận hành, đối soát và hỗ trợ.</li>
+            <li>Chỉ chia sẻ ở mức tối thiểu với các bên phục vụ vận hành (ví dụ: hạ tầng/cổng thanh toán) hoặc theo yêu cầu hợp lệ từ cơ quan có thẩm quyền.</li>
+            <li>Chúng tôi <strong>không bán dữ liệu</strong> người dùng cho bên thứ ba.</li>
+        </ul>
+
+        <h3>4. Bảo mật dữ liệu</h3>
+        <ul>
+            <li>Áp dụng biện pháp kỹ thuật hợp lý để hạn chế truy cập trái phép và giảm rủi ro rò rỉ dữ liệu.</li>
+            <li>Tuy nhiên, Internet luôn có rủi ro và không thể đảm bảo an toàn tuyệt đối trong mọi tình huống.</li>
+        </ul>
+
+        <h3>5. Quyền của bạn</h3>
+        <ul>
+            <li>Bạn có thể yêu cầu xem/sửa/xóa dữ liệu trong phạm vi hệ thống đang lưu trữ (trừ trường hợp cần lưu để chống gian lận/đối soát).</li>
+            <li>Bạn có trách nhiệm bảo mật thiết bị, email, phiên đăng nhập và thông tin thanh toán của mình.</li>
+            <li>Chính sách có thể được cập nhật theo thời gian để phù hợp với hoạt động vận hành và yêu cầu áp dụng.</li>
+        </ul>
+    </section>
+
+    <!-- ============ SECTION 2 ============ -->
+    <section class="policy-section" id="terms">
+        <div class="section-head">
+            <div class="ic">⚖️</div>
+            <h2>Điều khoản sử dụng</h2>
+        </div>
+
+        <h3>1. Phạm vi dịch vụ</h3>
+        <ul>
+            <li>Shop cung cấp quyền thuê/sử dụng tool theo số lượt hoặc thời hạn; không bán và không chuyển nhượng.</li>
+            <li>Tool hỗ trợ tự động hóa thao tác theo lựa chọn người dùng; không phải dịch vụ đại diện/ủy quyền cho bất kỳ bên thứ ba nào.</li>
+        </ul>
+
+        <h3>2. Trách nhiệm của người dùng</h3>
+        <ul>
+            <li>Bạn xác nhận có quyền sử dụng tài khoản/nguồn dữ liệu mà bạn thao tác.</li>
+            <li>Bạn tự chịu trách nhiệm tuân thủ quy định và điều khoản của nền tảng/website bên thứ ba nơi bạn sử dụng.</li>
+            <li>Bạn không yêu cầu hệ thống thực hiện các thao tác vượt quyền truy cập của bạn hoặc trái với quy định của nền tảng.</li>
+        </ul>
+
+        <h3>3. Quy định sử dụng</h3>
+        <ul>
+            <li>Không chia sẻ/cho thuê lại/rao bán lại quyền sử dụng tool dưới bất kỳ hình thức nào.</li>
+            <li>Không sử dụng tool để gây gián đoạn, spam request, hoặc ảnh hưởng tiêu cực tới hệ thống bên thứ ba.</li>
+            <li>Không hỗ trợ/không tiếp tay các hành vi chiếm đoạt tài khoản, vượt cơ chế bảo vệ, khai thác lỗ hổng hoặc can thiệp trái phép.</li>
+        </ul>
+
+        <h3>4. Tạm ngưng/chấm dứt</h3>
+        <ul>
+            <li>Chúng tôi có quyền tạm ngưng/khóa dịch vụ nếu phát hiện lạm dụng, gian lận hoặc vi phạm quy định sử dụng.</li>
+            <li>Chúng tôi có thể điều chỉnh cơ chế vận hành để đảm bảo ổn định và an toàn hệ thống.</li>
+        </ul>
+    </section>
+
+    <!-- ============ SECTION 3 ============ -->
+    <section class="policy-section" id="disclaimer">
+        <div class="section-head">
+            <div class="ic">⚠️</div>
+            <h2>Miễn trừ &amp; giới hạn trách nhiệm</h2>
+        </div>
+
+        <h3>1. Cung cấp theo "như hiện trạng"</h3>
+        <ul>
+            <li>Dịch vụ được cung cấp theo dạng "như hiện trạng" và "tùy khả dụng".</li>
+            <li>Chúng tôi nỗ lực đảm bảo ổn định, nhưng không cam kết dịch vụ luôn hoạt động liên tục/không lỗi do phụ thuộc mạng, thiết bị, hạ tầng và thay đổi từ bên thứ ba.</li>
+        </ul>
+
+        <h3>2. Yếu tố từ bên thứ ba</h3>
+        <ul>
+            <li>Nền tảng/website bên thứ ba có thể thay đổi chính sách/kỹ thuật dẫn đến gián đoạn, hạn chế hoặc từ chối truy cập.</li>
+            <li>Bạn hiểu và chấp nhận rủi ro phát sinh từ các thay đổi/kiểm soát của bên thứ ba ngoài phạm vi kiểm soát của chúng tôi.</li>
+        </ul>
+
+        <h3>3. Giới hạn trách nhiệm</h3>
+        <ul>
+            <li>Trong phạm vi quy định áp dụng cho phép, chúng tôi không chịu trách nhiệm cho thiệt hại gián tiếp, mất dữ liệu hoặc tổn thất phát sinh ngoài khả năng kiểm soát hợp lý.</li>
+            <li>Nếu phát sinh trách nhiệm (nếu có), tổng trách nhiệm tối đa không vượt quá số tiền bạn đã thanh toán cho gói/đơn tương ứng trong kỳ phát sinh sự cố.</li>
+        </ul>
+
+        <h3>4. Bồi hoàn/miễn trừ</h3>
+        <ul>
+            <li>Bạn đồng ý bồi hoàn/miễn trừ cho chúng tôi trước các khiếu nại/chi phí phát sinh từ việc bạn vi phạm điều khoản hoặc quy định của nền tảng bên thứ ba.</li>
+            <li>Không nội dung nào ở đây nhằm loại trừ các nghĩa vụ bắt buộc không thể loại trừ theo quy định áp dụng.</li>
+        </ul>
+    </section>
+
+    <!-- ============ SECTION 4 ============ -->
+    <section class="policy-section" id="contact">
+        <div class="section-head">
+            <div class="ic">📬</div>
+            <h2>Liên hệ hỗ trợ</h2>
+        </div>
+        <p>Nếu cần hỗ trợ về gói thuê, đối soát thanh toán hoặc yêu cầu liên quan dữ liệu, vui lòng liên hệ kênh CSKH của Shop.</p>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">© 2024 - 2026 · Software by Hoang Long Dev</p>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <div class="policy-footer">
+        <p>🔒 Bảo mật &amp; minh bạch là ưu tiên hàng đầu.<br/>Cảm ơn bạn đã tin tưởng sử dụng dịch vụ của chúng tôi.</p>
+        <a href="{{ url_for('home') }}" class="btn-back-policy">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            Quay về trang chủ
+        </a>
+    </div>
+
+</div>
+{% endblock %}

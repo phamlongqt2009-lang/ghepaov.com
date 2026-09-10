@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    .admin-page { max-width: 1100px; margin: 0 auto; padding: 32px 20px 60px; }
+
+    .admin-head { margin-bottom: 28px; }
+    .admin-head .eyebrow {
+        font-size: 0.72rem; font-weight: 700; color: var(--color-primary);
+        text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px;
+    }
+    .admin-head h1 {
+        font-family: var(--font-display);
+        font-size: clamp(1.7rem, 3.5vw, 2.2rem);
+        font-weight: 800; letter-spacing: -1px; line-height: 1.1;
+        color: var(--text-primary);
+    }
+    .admin-head .sub { color: var(--text-secondary); font-size: 0.9rem; margin-top: 6px; }
+
+    .split-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    @media (max-width: 900px) { .split-2 { grid-template-columns: 1fr; } }
+
+    .panel {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-lg);
+        padding: 26px 26px 22px;
+        position: relative;
+        overflow: hidden;
+    }
+    .panel::before {
+        content: ''; position: absolute;
+        top: 0; left: 0; right: 0; height: 3px;
+        background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+    }
+    .panel-head {
+        font-family: var(--font-display);
+        font-size: 0.92rem; font-weight: 700;
+        color: var(--text-primary); margin-bottom: 20px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--border-subtle);
+        display: flex; align-items: center; gap: 8px;
+        text-transform: uppercase; letter-spacing: 0.5px;
+    }
+
+    .fg { margin-bottom: 18px; }
+    .f-label {
+        display: block; font-weight: 700;
+        font-size: 0.72rem; color: var(--text-muted);
+        margin-bottom: 7px; text-transform: uppercase;
+        letter-spacing: 0.6px;
+    }
+    .f-input, .f-textarea {
+        width: 100%;
+        padding: 12px 14px;
+        background: rgba(0, 0, 0, 0.28);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        color: var(--text-primary);
+        font-size: 0.9rem;
+        font-family: var(--font-body);
+        outline: none;
+        transition: all .2s;
+        resize: vertical;
+    }
+    .f-input:focus, .f-textarea:focus {
+        border-color: var(--color-primary);
+        background: rgba(0, 0, 0, 0.4);
+        box-shadow: 0 0 0 4px var(--color-primary-soft);
+    }
+    .f-textarea { min-height: 180px; line-height: 1.65; }
+    .f-input::placeholder, .f-textarea::placeholder { color: var(--text-dim); }
+
+    .f-hint {
+        font-size: 0.72rem; color: var(--text-muted);
+        margin-top: 6px; display: block;
+    }
+
+    /* Preview box */
+    .preview-card {
+        background: rgba(0, 0, 0, 0.25);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        padding: 20px;
+        min-height: 240px;
+        position: relative;
+    }
+    .preview-badge {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 4px 12px; border-radius: var(--radius-full);
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.22);
+        color: #34d399; font-size: 0.65rem;
+        font-weight: 700; text-transform: uppercase;
+        letter-spacing: 0.8px; margin-bottom: 14px;
+    }
+    .preview-badge .dot {
+        width: 5px; height: 5px; border-radius: 50%;
+        background: #34d399; animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:0.3 } }
+    .preview-title {
+        font-family: var(--font-display);
+        font-size: 1.25rem; font-weight: 800;
+        letter-spacing: -0.5px; color: var(--text-primary);
+        margin-bottom: 12px;
+        word-break: break-word;
+    }
+    .preview-content {
+        color: var(--text-secondary);
+        line-height: 1.75; font-size: 0.9rem;
+        white-space: pre-wrap;
+        word-break: break-word;
+        max-height: 320px;
+        overflow-y: auto;
+    }
+    .preview-placeholder {
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        text-align: center; color: var(--text-dim);
+        min-height: 200px; gap: 10px;
+    }
+
+    .btn-submit {
+        width: 100%; padding: 14px;
+        border-radius: var(--radius-md);
+        background: linear-gradient(135deg, var(--color-primary), #d97706);
+        color: #1a1206;
+        font-family: var(--font-display);
+        font-weight: 800; font-size: 0.95rem;
+        letter-spacing: -0.2px;
+        border: none; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        gap: 8px;
+        box-shadow: var(--shadow-accent);
+        transition: all .2s;
+        margin-top: 8px;
+    }
+    .btn-submit:hover { transform: translateY(-1px); filter: brightness(1.05); }
+
+    .btn-back {
+        display: inline-flex; align-items: center; gap: 8px;
+        margin-top: 20px;
+        color: var(--text-muted); text-decoration: none;
+        font-weight: 600; font-size: 0.85rem;
+        padding: 9px 16px;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border-subtle);
+        background: rgba(255, 255, 255, 0.02);
+        transition: all .2s;
+    }
+    .btn-back:hover { color: var(--text-primary); border-color: var(--border-strong); }
+
+    .alert.error {
+        padding: 12px 16px; border-radius: var(--radius-md);
+        background: rgba(239, 68, 68, 0.08);
+        border: 1px solid rgba(239, 68, 68, 0.22);
+        color: #fca5a5; font-weight: 600;
+        font-size: 0.88rem; margin-bottom: 20px;
+        display: flex; align-items: center; gap: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-page">
+
+    <div class="admin-head">
+        <div class="eyebrow">Quản trị</div>
+        <h1>Đăng cập nhật mới</h1>
+        <p class="sub">Tạo thông báo phiên bản mới cho người dùng — có preview trực tiếp.</p>
+    </div>
+
+    {% if error %}
+    <div class="alert error">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <div class="split-2">
+
+        <!-- FORM -->
+        <div class="panel">
+            <div class="panel-head">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>
+                Soạn thảo
+            </div>
+
+            <form method="post" id="update-form">
+                <div class="fg">
+                    <label class="f-label">Tiêu đề</label>
+                    <input type="text" name="title" id="in-title" class="f-input"
+                           placeholder="VD: Ra mắt tính năng ghép ảnh Top Tướng..."
+                           maxlength="120" required/>
+                    <span class="f-hint">Ngắn gọn, rõ ràng — 10 đến 100 ký tự.</span>
+                </div>
+
+                <div class="fg">
+                    <label class="f-label">Nội dung</label>
+                    <textarea name="content" id="in-content" class="f-textarea"
+                              placeholder="Mô tả chi tiết thay đổi, tính năng mới, bug fix..." required></textarea>
+                    <span class="f-hint">Hỗ trợ xuống dòng. Preview sẽ cập nhật theo thời gian thực.</span>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4Z"/></svg>
+                    Đăng cập nhật
+                </button>
+            </form>
+
+            <a href="{{ url_for('updates') }}" class="btn-back">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                Xem danh sách
+            </a>
+        </div>
+
+        <!-- PREVIEW -->
+        <div class="panel">
+            <div class="panel-head">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                Xem trước
+            </div>
+
+            <div class="preview-card">
+                <div id="preview-active" style="display:none;">
+                    <div class="preview-badge">
+                        <span class="dot"></span>
+                        Bản cập nhật mới nhất
+                    </div>
+                    <div class="preview-title" id="preview-title">Tiêu đề bài viết</div>
+                    <div class="preview-content" id="preview-content">Nội dung sẽ hiển thị ở đây...</div>
+                </div>
+
+                <div id="preview-empty" class="preview-placeholder">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    <div style="font-size:0.85rem;">Bắt đầu nhập để xem trước</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    (function () {
+        const t = document.getElementById('in-title');
+        const c = document.getElementById('in-content');
+        const pTitle = document.getElementById('preview-title');
+        const pContent = document.getElementById('preview-content');
+        const pActive = document.getElementById('preview-active');
+        const pEmpty = document.getElementById('preview-empty');
+
+        function refresh() {
+            const hasTitle = t.value.trim().length > 0;
+            const hasContent = c.value.trim().length > 0;
+            if (hasTitle || hasContent) {
+                pActive.style.display = 'block';
+                pEmpty.style.display = 'none';
+                pTitle.textContent = t.value.trim() || 'Tiêu đề bài viết';
+                pContent.textContent = c.value.trim() || 'Nội dung sẽ hiển thị ở đây...';
+            } else {
+                pActive.style.display = 'none';
+                pEmpty.style.display = 'flex';
+            }
+        }
+        t.addEventListener('input', refresh);
+        c.addEventListener('input', refresh);
+    })();
+</script>
+{% endblock %}

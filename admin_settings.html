@@ -1,0 +1,319 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    .admin-page { max-width: 780px; margin: 0 auto; padding: 32px 20px 60px; }
+
+    .admin-head { margin-bottom: 32px; }
+    .admin-head .eyebrow {
+        font-size: 0.72rem; font-weight: 700; color: var(--color-primary);
+        text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px;
+    }
+    .admin-head h1 {
+        font-family: var(--font-display);
+        font-size: clamp(1.7rem, 3.5vw, 2.2rem);
+        font-weight: 800; letter-spacing: -1px; line-height: 1.1;
+        color: var(--text-primary);
+    }
+    .admin-head .sub { color: var(--text-secondary); font-size: 0.9rem; margin-top: 6px; }
+
+    .settings-card {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-xl);
+        padding: 32px 32px 28px;
+        position: relative;
+        overflow: hidden;
+    }
+    @media (max-width: 640px) { .settings-card { padding: 22px 18px; } }
+    .settings-card::before {
+        content: ''; position: absolute;
+        top: 0; left: 0; right: 0; height: 3px;
+        background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+    }
+
+    /* Alert states */
+    .alert {
+        padding: 12px 16px; border-radius: var(--radius-md);
+        font-weight: 600; font-size: 0.88rem;
+        margin-bottom: 22px; display: flex; align-items: center; gap: 10px;
+    }
+    .alert.success {
+        background: rgba(16, 185, 129, 0.08);
+        border: 1px solid rgba(16, 185, 129, 0.22);
+        color: #6ee7b7;
+    }
+    .alert.error {
+        background: rgba(239, 68, 68, 0.08);
+        border: 1px solid rgba(239, 68, 68, 0.22);
+        color: #fca5a5;
+    }
+
+    /* Preview box */
+    .preview-box {
+        padding: 14px 18px;
+        border-radius: var(--radius-md);
+        background: rgba(0, 0, 0, 0.25);
+        border: 1px dashed var(--border-strong);
+        margin-bottom: 28px;
+        font-size: 0.82rem;
+        color: var(--text-secondary);
+        line-height: 1.7;
+    }
+    .preview-box strong { color: var(--color-primary); font-family: var(--font-mono); }
+
+    /* Maintenance box */
+    .maintenance-box {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 16px; padding: 18px 20px;
+        background: rgba(0, 0, 0, 0.22);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        margin-bottom: 28px;
+        transition: all .25s;
+    }
+    .maintenance-box.on {
+        border-color: rgba(239, 68, 68, 0.35);
+        background: rgba(239, 68, 68, 0.06);
+    }
+    .mt-title {
+        font-family: var(--font-display);
+        font-weight: 700; color: var(--text-primary);
+        font-size: 0.95rem; letter-spacing: -0.2px;
+        display: flex; align-items: center; gap: 10px;
+        margin-bottom: 6px;
+    }
+    .mt-status {
+        font-size: 0.65rem; font-weight: 800;
+        padding: 2px 10px; border-radius: var(--radius-full);
+        text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .mt-status.off {
+        background: rgba(16, 185, 129, 0.12); color: #34d399;
+    }
+    .mt-status.on {
+        background: rgba(239, 68, 68, 0.15); color: #f87171;
+    }
+    .mt-desc {
+        font-size: 0.78rem; color: var(--text-muted);
+        line-height: 1.55; max-width: 420px;
+    }
+
+    /* Switch */
+    .switch {
+        position: relative; display: inline-block;
+        width: 50px; height: 28px; flex-shrink: 0;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .switch-slider {
+        position: absolute; cursor: pointer;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: var(--radius-full);
+        transition: .2s;
+    }
+    .switch-slider::before {
+        content: '';
+        position: absolute;
+        height: 22px; width: 22px;
+        left: 3px; top: 3px;
+        background: #fff;
+        border-radius: 50%;
+        transition: .2s;
+    }
+    .switch input:checked + .switch-slider {
+        background: #ef4444;
+    }
+    .switch input:checked + .switch-slider::before {
+        transform: translateX(22px);
+    }
+
+    /* Form */
+    .form-group { margin-bottom: 20px; }
+    .f-label {
+        display: block; font-weight: 700;
+        font-size: 0.72rem; color: var(--text-muted);
+        margin-bottom: 8px; text-transform: uppercase;
+        letter-spacing: 0.6px;
+    }
+    .f-wrap { position: relative; }
+    .f-icon {
+        position: absolute; left: 14px; top: 50%;
+        transform: translateY(-50%);
+        color: var(--color-primary);
+        font-weight: 700; font-size: 0.78rem;
+        pointer-events: none;
+    }
+    .f-input {
+        width: 100%;
+        padding: 12px 16px 12px 62px;
+        background: rgba(0, 0, 0, 0.28);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        color: var(--text-primary);
+        font-size: 0.92rem; outline: none;
+        transition: all .2s;
+        font-family: var(--font-mono);
+    }
+    .f-input:focus {
+        border-color: var(--color-primary);
+        background: rgba(0, 0, 0, 0.4);
+        box-shadow: 0 0 0 4px var(--color-primary-soft);
+    }
+    .f-input::placeholder { color: var(--text-dim); }
+
+    .f-hint {
+        font-size: 0.72rem; color: var(--text-muted);
+        margin-top: 6px; display: block;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+    @media (max-width: 640px) { .form-row { grid-template-columns: 1fr; } }
+
+    /* Submit */
+    .btn-save {
+        width: 100%;
+        padding: 14px;
+        border-radius: var(--radius-md);
+        background: linear-gradient(135deg, var(--color-primary), #d97706);
+        color: #1a1206;
+        font-family: var(--font-display);
+        font-weight: 800; font-size: 0.95rem;
+        letter-spacing: -0.2px;
+        border: none; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        gap: 8px;
+        box-shadow: var(--shadow-accent);
+        transition: all .2s;
+        margin-top: 8px;
+    }
+    .btn-save:hover { transform: translateY(-1px); filter: brightness(1.05); }
+
+    .btn-back {
+        display: inline-flex; align-items: center; gap: 8px;
+        margin-top: 20px;
+        color: var(--text-muted); text-decoration: none;
+        font-weight: 600; font-size: 0.85rem;
+        padding: 9px 16px;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border-subtle);
+        background: rgba(255, 255, 255, 0.02);
+        transition: all .2s;
+    }
+    .btn-back:hover { color: var(--text-primary); border-color: var(--border-strong); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-page">
+
+    <div class="admin-head">
+        <div class="eyebrow">Quản trị</div>
+        <h1>Cài đặt hệ thống</h1>
+        <p class="sub">Cấu hình liên hệ, giá dịch vụ và trạng thái bảo trì.</p>
+    </div>
+
+    <div class="settings-card">
+
+        {% if saved %}
+        <div class="alert success">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Đã lưu cài đặt thành công!
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="alert error">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <!-- ============ MAINTENANCE ============ -->
+        <div class="maintenance-box {% if settings.maintenance_mode == '1' %}on{% endif %}">
+            <div>
+                <div class="mt-title">
+                    🚧 Chế độ bảo trì
+                    {% if settings.maintenance_mode == '1' %}
+                    <span class="mt-status on">Đang bật</span>
+                    {% else %}
+                    <span class="mt-status off">Đang tắt</span>
+                    {% endif %}
+                </div>
+                <div class="mt-desc">
+                    Khi bật: chỉ Admin đăng nhập được. Mọi tài khoản khác sẽ thấy trang "Website đang bảo trì".
+                </div>
+            </div>
+            <form method="post" action="{{ url_for('admin_toggle_maintenance') }}">
+                <label class="switch">
+                    <input type="checkbox"
+                           onchange="if (confirm('{{ 'Tắt bảo trì, cho phép mọi người dùng lại web?' if settings.maintenance_mode == '1' else 'Bật bảo trì? Mọi tài khoản không phải Admin sẽ không vào được web.' }}')) { this.form.submit(); } else { this.checked = !this.checked; }"
+                           {% if settings.maintenance_mode == '1' %}checked{% endif %}>
+                    <span class="switch-slider"></span>
+                </label>
+            </form>
+        </div>
+
+        <!-- ============ PREVIEW ============ -->
+        <div class="preview-box">
+            💬 Zalo hiện tại: <strong>zalo.me/{{ settings.zalo_phone or '(chưa đặt)' }}</strong><br>
+            📨 Telegram: <strong>{{ settings.telegram_link or '(chưa đặt)' }}</strong><br>
+            💰 Giá ghép ảnh: <strong>{{ settings.price_per_skin or 50 }}đ / ảnh skin</strong>
+        </div>
+
+        <!-- ============ FORM ============ -->
+        <form method="post">
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="f-label">Số điện thoại Zalo</label>
+                    <div class="f-wrap">
+                        <span class="f-icon" style="color:#0068FF;">Zalo</span>
+                        <input type="text" name="zalo_phone" class="f-input"
+                               placeholder="0824880709"
+                               value="{{ settings.zalo_phone or '' }}" required>
+                    </div>
+                    <span class="f-hint">Chỉ nhập số, không cần zalo.me/</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="f-label">Giá ghép ảnh (đ / ảnh)</label>
+                    <div class="f-wrap">
+                        <span class="f-icon" style="color:#10b981;">đ</span>
+                        <input type="number" name="price_per_skin" class="f-input"
+                               placeholder="50" min="1" step="1"
+                               value="{{ settings.price_per_skin or 50 }}" required>
+                    </div>
+                    <span class="f-hint">Áp dụng ngay cho lượt ghép tiếp theo</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="f-label">Link Telegram</label>
+                <div class="f-wrap">
+                    <span class="f-icon" style="color:#229ED9;">Tele</span>
+                    <input type="text" name="telegram_link" class="f-input"
+                           placeholder="https://t.me/tenkenh"
+                           value="{{ settings.telegram_link or '' }}" required>
+                </div>
+                <span class="f-hint">Nhập đầy đủ đường link, ví dụ: https://t.me/Dieunhinine</span>
+            </div>
+
+            <button type="submit" class="btn-save">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>
+                Lưu cài đặt
+            </button>
+        </form>
+
+        <a href="{{ url_for('admin_dashboard') }}" class="btn-back">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            Về Dashboard
+        </a>
+
+    </div>
+
+</div>
+{% endblock %}
